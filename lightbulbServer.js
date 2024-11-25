@@ -18,24 +18,64 @@ app.get('/', (req, res) => {
 });
 
 // Route for adding new user to database
-// TODO: Implement
-app.post('/makeNewUser/:userName/:displayName', async (req, res) => {
+// TODO: change back to post once ready for testing
+app.get('/makeNewUser/:userName/:displayName', async (req, res) => {
 
-    let userNameInput = req.params.userName;
-    let displayName = req.params.displayName;
-    console.log("userName");
-    // Check if userName already exists.
-    const User = mongoose.model("User", userSchema);
+    let inputUserName = req.params.userName;
+    let inputDisplayName = req.params.displayName;
 
-    const user = await User.findOne({ userName: userNameInput });
-    if (user) {
+    // Checks if user already exists, and responds by either creating a new user or letting
+    // the user know that one with the given userName already exists
+    const userAlreadyExists = await User.findOne({ userName: inputUserName });
+    if (userAlreadyExists) {
        res.send("User name already exists");
     } else {
-       res.send("User name available");
+        let newUser = new User({
+            userName: inputUserName,
+            dispName: inputDisplayName,
+            followList: [],
+            bio: "",
+            status: ""
+        });
+        await newUser.save();
+        res.send("User added successfully");
     }
 
 });
 
+// Route for creating a new post
+// TODO: Check if content is empty
+// TODO: Check if no such author exists
+// TODO: Check if too long (?)
+// TODO: Change to post
+app.get("/makeNewPost/:userName/:content", async (req, res) => {
+
+    let inputUserName = req.params.userName;
+    let inputContent = req.params.content;
+
+    // Finds db ID of the user who created the post
+    let userID = await User.findOne({ userName: inputUserName });
+
+    // Creates new post in database
+    let newPost = new Post({
+        authorUser: userID._id,
+        content: inputContent,
+        thumbsUpCount: 0,
+        thumbsDownCount: 0,
+        timestamp: Date.now()
+    });
+    await newPost.save();
+    res.send("Post added successfully");
+});
+
+app.get("/makeNewComment/:postID/:content", async (req, res) => {
+
+    let inputUserName = req.params.userName;
+    let inputContent = req.params.content;
+
+    let 
+
+})
 
 // Starts up express server
 app.listen(port, () => {
@@ -64,11 +104,14 @@ const postSchema = new mongoose.Schema({
     content: String,
     thumbsUpCount: Number,
     thumbsDownCount: Number,
-    timestamp: Date
+    timestamp: Date,
+    postId: String
 });
+
 const Post = mongoose.model("Post", postSchema);
 
 // Schema for Comment
+// TODO: add author ID
 const commentSchema = new mongoose.Schema({
     associatedPost: { type: mongoose.Schema.Types.ObjectId, ref: "Post"},
     content: String,
