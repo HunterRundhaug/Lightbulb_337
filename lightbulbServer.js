@@ -17,6 +17,15 @@ app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
 
+// Route for recieving account data...
+app.get('/getUserData/:userName', async (req, res) => {
+    let inputUserName = req.params.userName;
+    const userData = await User.findOne({ userName: inputUserName });
+    if(userData != null){
+        res.status(200).type("text/plain").send(userData);
+    }
+});
+
 // Route for adding new user to database
 // TODO: change back to post once ready for testing
 app.get('/makeNewUser/:userName/:displayName', async (req, res) => {

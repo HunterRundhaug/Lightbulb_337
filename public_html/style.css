@@ -1,0 +1,93 @@
+
+
+body{
+    background-color: rgb(230, 230, 230);
+    padding:0;
+    margin:0;
+}
+
+h2{
+    text-align: center;
+}
+
+#searchSection{
+    margin:0;
+    padding: 0;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    gap: 20px; 
+    border-bottom: 1px solid black;
+    background-color: white;
+}
+
+#searchBar input[type="text"]{
+    width: 40vw;
+}
+
+#mainSectionWrapper{
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+    max-height: 70vh;
+}
+
+#followingSection{
+    top:0;
+    width:20vw;
+    border-right: 1px solid black;
+    background-color: white;
+
+}
+
+.userInfollowingSection{
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding: 1px;
+    border-radius: 3px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+
+}
+
+#contentSection{
+    bottom: 0;
+    padding-top: 40%;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    
+}
+
+/* Individual sections */
+#followingSection, #contentSection {
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 10px;
+}
+
+.postInContentSection{
+    margin:5px;
+    padding:0px;
+    width: 30vw;
+    border-radius: 2px;
+    border: 1px solid black;
+    background-color: white;
+
+}
+
+.userNameInPost{
+    border-bottom: 1px solid black;
+    padding:3px;
+    margin:0;
+}
+
+.contentInPost{
+    padding:3px;
+}
+
+.likeDislikeBox{
+    padding: 3px;
+}
