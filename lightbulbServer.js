@@ -6,11 +6,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+
 // Sets up express app, port number
 const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(express.static("public_html/"));
 
 // TODO: make routes
 app.get('/', (req, res) => {
@@ -22,7 +24,7 @@ app.get('/getUserData/:userName', async (req, res) => {
     let inputUserName = req.params.userName;
     const userData = await User.findOne({ userName: inputUserName });
     if(userData != null){
-        res.status(200).type("text/plain").send(userData);
+        res.status(200).json(userData);
     }
 });
 
