@@ -18,9 +18,8 @@ function getUserFromServer(){
     httpRequest.onreadystatechange = () => {
         
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
-            if (httpRequest.status === 200) { // THIS is where the data is recieved.
+            if (httpRequest.status === 200) { // THIS is where the response is recieved.
                 responseHolder = JSON.parse(httpRequest.responseText);
-                console.log("200 response!!");
                 userNameElement.textContent = responseHolder.userName;
                 displayNameElement.textContent = responseHolder.dispName;
             } 

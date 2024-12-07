@@ -11,8 +11,9 @@ const mongoose = require('mongoose');
 const app = express();
 const port = 3000;
 
+// MIDDLE-WARE
 app.use(express.json());
-app.use(express.static("public_html/"));
+app.use(express.static("public_html/signIn/"));
 
 // TODO: make routes
 app.get('/', (req, res) => {

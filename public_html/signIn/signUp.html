@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./signUpStyle.css"> 
+    <title>Sign Up</title>
+</head>
+
+<body>
+    <h1>Lightbulb</h1>
+    <div id="mainWrapper">
+            <div id="boxWrapper">
+                <h2>Sign Up!</h2>
+                <form>
+                    <div class="formDiv">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="formDiv">
+                        <label for="displayName">Display Name:</label>
+                        <input type="text" id="displayName" name="displayName" placeholder="Enter your display name" required>
+                    </div>
+                    <br><br>
+                    <p id="warning">Please note, no password is required as this platform is not yet encrypted!</p>
+                    <div id="submitButtonDiv">
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+    </div>
+
+    <script src="./loginScript.js"></script>
+
+</body>
+</html>
