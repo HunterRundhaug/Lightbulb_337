@@ -80,3 +80,11 @@ button:focus{
     background-color: rgb(242, 182, 182);
     color: black;
 }
+
+#backToLoginDiv{
+    text-align: center;
+}
+
+a{
+    text-decoration: none;
+}

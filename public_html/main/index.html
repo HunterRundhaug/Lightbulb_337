@@ -9,15 +9,15 @@
 
 <body>
     <div id="searchSection">
-        <p>LightBulb</p>
+        <h1>LightBulb</h1>
         <div id="searchBar">
-            <form >
-                <input type="text" name="query" placeholder="Search for users" required>
-                <button type="submit">Search</button>
+            <form onsubmit="">
+                <input type="text" name="query" id="userSearchInput" placeholder="Search for users" required>
             </form>
         </div>
-        <p>Account</p>
-        <p>Sign out</p>
+        <p><a id="accountPageLink" href="./account.html">Account</a></p>
+        <p>Signout</p>
+        <p id="currentUserName">yourName</p>
 
     </div>
 
@@ -53,14 +53,13 @@
         </div>
         
         <div id="contentSection">
-            <h2>Content</h2>
 
             <div class="postInContentSection">
                 <p class="userNameInPost">User Account Name</p>
                 <p class="contentInPost">This is where the post content will go...</p>
                 <div class="likeDislikeBox">
-                    <button type="button">like</button>
-                    <button type="button">dislike</button>
+                    <button type="checkbox" class="likeDislikeBtn"> <img class="likeDislikeImg"  src="./images/like.png" /></button>
+                    <button type="checkbox" class="likeDislikeBtn"> <img class="likeDislikeImg"  src="./images/dislike.png"/> </button>
                 </div>
             </div>
 
@@ -68,8 +67,8 @@
                 <p class="userNameInPost">User Account Name</p>
                 <p class="contentInPost">This is where the post content will go...</p>
                 <div class="likeDislikeBox">
-                    <button type="button">like</button>
-                    <button type="button">dislike</button>
+                    <button type="checkbox" class="likeDislikeBtn"> <img class="likeDislikeImg"  src="./images/like.png" /></button>
+                    <button type="checkbox" class="likeDislikeBtn"> <img class="likeDislikeImg"  src="./images/dislike.png"/> </button>
                 </div>
             </div>
 
@@ -77,43 +76,18 @@
                 <p class="userNameInPost">User Account Name</p>
                 <p class="contentInPost">This is where the post content will go...</p>
                 <div class="likeDislikeBox">
-                    <button type="button">like</button>
-                    <button type="button">dislike</button>
+                    <button type="checkbox" class="likeDislikeBtn"> <img class="likeDislikeImg"  src="./images/like.png" /></button>
+                    <button type="checkbox" class="likeDislikeBtn"> <img class="likeDislikeImg"  src="./images/dislike.png"/> </button>
                 </div>
             </div>
 
-            <div class="postInContentSection">
-                <p class="userNameInPost">User Account Name</p>
-                <p class="contentInPost">This is where the post content will go...</p>
-                <div class="likeDislikeBox">
-                    <button type="button">like</button>
-                    <button type="button">dislike</button>
-                </div>
-            </div>
-
-            <div class="postInContentSection">
-                <p class="userNameInPost">User Account Name</p>
-                <p class="contentInPost">This is where the post content will go...</p>
-                <div class="likeDislikeBox">
-                    <button type="button">like</button>
-                    <button type="button">dislike</button>
-                </div>
-            </div>
-
-            <div class="postInContentSection">
-                <p class="userNameInPost">User Account Name</p>
-                <p class="contentInPost">This is where the post content will go...</p>
-                <div class="likeDislikeBox">
-                    <button type="button">like</button>
-                    <button type="button">dislike</button>
-                </div>
-            </div>
+            
 
         </div>
 
     </div>
     
 
-   
+    <script src="./index.js"></script>
 </body>
 </html>

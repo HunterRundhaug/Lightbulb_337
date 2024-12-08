@@ -1,0 +1,30 @@
+
+
+body{
+    background-color: rgb(50, 50, 50);
+    padding:0;
+    margin:0;
+    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+h2{
+    text-align: center;
+}
+
+#searchSection{
+    margin:0;
+    padding: 0;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    gap: 20px; 
+    border-bottom: 1px solid #b8b8bc;
+    background-color: #ff7e5f
+}
+
+#searchBar input[type="text"]{
+    width: 40vw;
+    padding:5px;
+    border-radius: 20px;
+}

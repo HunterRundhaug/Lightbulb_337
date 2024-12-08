@@ -5,6 +5,9 @@
 // Import statements
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const path = require('path');
 
 
 // Sets up express app, port number
@@ -13,19 +16,78 @@ const port = 3000;
 
 // MIDDLE-WARE
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.static("public_html/signIn/"));
+// Serve static files for main page (CSS, JS, etc.)
+app.use('/main', express.static(path.join(__dirname, 'public_html', 'main')));
+
+app.use(
+    session({
+        secret: '12345', // Replace with a strong, unique secret
+        resave: false, // Prevents resaving unmodified sessions
+        saveUninitialized: true, // Saves uninitialized sessions to the store
+        cookie: { secure: false }, // Set to true if using HTTPS
+    })
+);
 
 // TODO: make routes
 app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
 
-// Route for recieving account data...
-app.get('/getUserData/:userName', async (req, res) => {
-    let inputUserName = req.params.userName;
-    const userData = await User.findOne({ userName: inputUserName });
-    if(userData != null){
-        res.status(200).json(userData);
+// Get current user Route from session data
+// Used for retrieving the currently signed in user on the main page.
+app.get('/getCurrentUser', async (req, res) => {
+    if (req.session.username) {
+        try{
+            const username = req.session.username;
+            const currentUser = await User.findOne({userName: username}); // get the current user document
+            if(currentUser){
+            const displayName = currentUser.dispName;
+            res.json({ dispName: displayName}); // Send the users display Name Back
+            }
+            else{
+                res.status(404).json({ message: 'User not found' });
+            }
+        }
+        catch(error){
+            res.status(500).json({ message: 'Server error' });
+        }
+        
+    } else {
+        res.status(401).json({ message: 'Not authenticated' });
+    }
+});
+
+// Login Route
+app.post('/login', async (req, res) => {
+    const username = req.body.username; // Extract username from the request
+    console.log("Username received:", username);
+
+    try {
+        const user = await User.findOne({ userName: username }); // Query database
+
+        if (user) {
+            req.session.username = username; // Save username in the session
+            console.log("User authenticated. Redirecting to /main...");
+            res.redirect('/main'); // Redirect to main page Route
+        } else {
+            res.status(404).send('User not found');
+        }
+    } catch (err) {
+        console.error('Error querying the database:', err);
+        res.status(500).send('Internal server error');
+    }
+});
+
+// Main Page Route
+app.get('/main', (req, res) => {
+    if (req.session.username) {
+        // User is authenticated, serve main page
+        res.sendFile(path.join(__dirname, 'public_html', 'main'));
+    } else {
+        // User not authenticated, redirect to login page
+        res.redirect(''); //to be determined.
     }
 });
 
@@ -90,7 +152,7 @@ app.get("/makeNewComment/:postID/:content", async (req, res) => {
 })
 
 // Starts up express server
-app.listen(port, () => {
+app.listen(port, "localhost", () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
 
@@ -165,4 +227,3 @@ async function main() {
 
 }
 
-main();

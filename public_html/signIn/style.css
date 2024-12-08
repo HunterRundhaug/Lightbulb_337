@@ -76,7 +76,7 @@ button{
     color: white;
 }
 
-button:focus{
+button:active{
     background-color: rgb(242, 182, 182);
     color: black;
 }
