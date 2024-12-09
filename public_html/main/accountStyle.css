@@ -23,8 +23,34 @@ h2{
     background-color: #ff7e5f
 }
 
+#homeButtonImg{
+    width:30px;
+}
+
 #searchBar input[type="text"]{
     width: 40vw;
     padding:5px;
     border-radius: 20px;
+}
+
+#infoDiv{
+    border-top: 1px solid  #b8b8bc;
+    border-bottom: 1px solid  #b8b8bc;
+    padding: 5%;
+}
+
+#infoTable{
+    width: 100%;
+}
+
+#infoTable,button{
+    border:none;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+
+.inputGroup{
+    margin-top: 15px;
 }

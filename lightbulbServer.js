@@ -43,8 +43,14 @@ app.get('/getCurrentUser', async (req, res) => {
             const username = req.session.username;
             const currentUser = await User.findOne({userName: username}); // get the current user document
             if(currentUser){
-            const displayName = currentUser.dispName;
-            res.json({ dispName: displayName}); // Send the users display Name Back
+            
+            res.json({ 
+                dispName: currentUser.dispName,
+                userName: currentUser.userName,           // < -- used as unique ID within database
+                // Probably need to add list of people they follow...
+                bio: currentUser.bio,
+                status: currentUser.status
+            }); // Send the users display Name Back
             }
             else{
                 res.status(404).json({ message: 'User not found' });
@@ -197,16 +203,18 @@ const Comment = mongoose.model("Comment", commentSchema);
 
 async function main() {
 
-    // Dummy user create test
-    let newUser = new User({
-        userName: "Hunter",
-        dispName: "hunter d",
-        followList: [],
-        bio: "1234",
-        status: "abcd"
-    });
-    await newUser.save();
 
+    // Dummy user create test
+    let newUser1 = new User({
+        userName: "Bob",
+        dispName: "BillyBob",
+        followList: [],
+        bio: "Im bob the guy that builds",
+        status: "Chilling"
+    });
+    await newUser1.save();
+
+    /*
     // Dummy post create test
     let newPost = new Post ({
         authorUser: newUser._id,
@@ -223,7 +231,7 @@ async function main() {
         content: "Hunter: me",
         timestamp: Date.now()
     });
-
-
+    */
 }
+
 
