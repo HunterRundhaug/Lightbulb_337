@@ -13,14 +13,14 @@
     <div id="mainWrapper">
             <div id="boxWrapper">
                 <h2>Sign Up!</h2>
-                <form>
+                <form onsubmit="requestSignUp(event)">
                     <div class="formDiv">
                         <label for="username">Username:</label>
                         <input type="text" id="username" name="username" placeholder="Enter your username" required>
                     </div>
                     <div class="formDiv">
                         <label for="displayName">Display Name:</label>
-                        <input type="text" id="displayName" name="displayName" placeholder="Enter your display name" required>
+                        <input type="text" id="displayName" name="displayname" placeholder="Enter your display name" required>
                     </div>
                     <br><br>
                     <p id="warning">Please note, no password is required as this platform is not yet encrypted!</p>

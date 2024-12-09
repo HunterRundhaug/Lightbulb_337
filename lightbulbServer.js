@@ -99,26 +99,31 @@ app.get('/main', (req, res) => {
 
 // Route for adding new user to database
 // TODO: change back to post once ready for testing
-app.get('/makeNewUser/:userName/:displayName', async (req, res) => {
+app.post('/makeNewUser', async (req, res) => {
 
-    let inputUserName = req.params.userName;
-    let inputDisplayName = req.params.displayName;
+    const inputUserName = req.body.userName;
+    const inputDisplayName = req.body.displayName;
 
-    // Checks if user already exists, and responds by either creating a new user or letting
-    // the user know that one with the given userName already exists
-    const userAlreadyExists = await User.findOne({ userName: inputUserName });
-    if (userAlreadyExists) {
-       res.send("User name already exists");
-    } else {
-        let newUser = new User({
-            userName: inputUserName,
-            dispName: inputDisplayName,
-            followList: [],
-            bio: "",
-            status: ""
-        });
-        await newUser.save();
-        res.send("User added successfully");
+    try {
+        // Checks if user already exists, and responds by either creating a new user or letting
+        // the user know that one with the given userName already exists
+        const userAlreadyExists = await User.findOne({ userName: inputUserName });
+        if (userAlreadyExists) {
+            res.status(409).send("User name taken");
+         } else {
+             let newUser = new User({
+                 userName: inputUserName,
+                 dispName: inputDisplayName,
+                 followList: [],
+                 bio: "",
+                 status: ""
+             });
+             await newUser.save();
+             res.send("User added successfully");
+         }
+    } catch (err) {
+        console.error('Error querying the database:', err);
+        res.status(500).send('Internal server error');
     }
 
 });
