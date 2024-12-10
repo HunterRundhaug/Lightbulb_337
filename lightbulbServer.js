@@ -20,6 +20,7 @@ app.use(cookieParser());
 app.use(express.static("public_html/signIn/"));
 // Serve static files for main page (CSS, JS, etc.)
 app.use('/main', express.static(path.join(__dirname, 'public_html', 'main')));
+app.use('/loginPage', express.static(path.join(__dirname, 'public_html', 'signIn')));
 
 app.use(
     session({
@@ -89,7 +90,7 @@ app.post('/login', async (req, res) => {
 // Main Page Route
 app.get('/main', (req, res) => {
     if (req.session.username) {
-        // User is authenticated, serve main page
+        // User is has a valid session, serve main page
         res.sendFile(path.join(__dirname, 'public_html', 'main'));
     } else {
         // User not authenticated, redirect to login page
@@ -97,11 +98,34 @@ app.get('/main', (req, res) => {
     }
 });
 
+// Logout Route
+app.post('/logout', (req, res) => {
+    if(req.session.username) {
+        // if the user has a valid session
+        req.session.destroy(error => {
+            if (error) {
+              console.error("Error destroying session:", error);
+              res.status(500).send('Internal server error');
+              console.log("logoutError");
+            } else {
+              res.redirect('/loginPage'); // Redirect to login or home page
+            }
+          });
+    }
+    else{
+        res.status(403).send("not logged in");
+    }
+});
+
+app.get('/loginPage', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public_html', 'signIn'));
+});
+
 // Route for adding new user to database
 // TODO: change back to post once ready for testing
 app.post('/makeNewUser', async (req, res) => {
 
-    const inputUserName = req.body.userName;
+    const inputUserName = req.body.username;
     const inputDisplayName = req.body.displayName;
 
     try {
@@ -151,6 +175,38 @@ app.get("/makeNewPost/:userName/:content", async (req, res) => {
     });
     await newPost.save();
     res.send("Post added successfully");
+});
+
+// Route for updating user info for existing user
+app.post("/updateUserInfo", async (req, res) => {
+    
+    const inputStatus = req.body.status;
+    const inputDispName = req.body.dispname;
+    const inputBio = req.body.bio;
+
+    try {
+        // Checks if session is valid
+        if (req.session.username) {
+            await User.updateOne(
+                { userName : req.session.username},
+                {$set: {
+                    dispName: inputDispName,
+                    bio: inputBio,
+                    status: inputStatus,
+                }}
+            );
+            res.send("Successfully updated profile!");
+        } else { // If no session found
+            res.status(404).send("Not signed in");
+        }
+
+
+    } catch (err) {
+        console.error('Error querying the database:', err);
+        res.status(500).send('Internal server error');
+    }
+
+
 });
 
 app.get("/makeNewComment/:postID/:content", async (req, res) => {

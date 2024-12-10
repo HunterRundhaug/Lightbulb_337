@@ -33,6 +33,11 @@ h2{
     border-radius: 20px;
 }
 
+#signOutButton:hover{
+    color:rgb(62, 62, 62);
+    cursor: pointer;
+}
+
 #infoDiv{
     border-top: 1px solid  #b8b8bc;
     border-bottom: 1px solid  #b8b8bc;
@@ -54,3 +59,21 @@ h2{
 .inputGroup{
     margin-top: 15px;
 }
+
+#setBioLabel{
+    position: absolute;
+    margin-top:0px;
+}
+
+textarea{
+    resize:none;
+}
+
+tr{
+    border:0px;
+}
+
+#bioTd{
+    vertical-align: top;
+}
+

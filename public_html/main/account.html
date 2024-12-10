@@ -18,8 +18,7 @@
                 <input type="text" name="query" id="userSearchInput" placeholder="Search for users" required>
             </form>
         </div>
-        <p>Account</p>
-        <p>Signout</p>
+        <p><a id="signOutButton" onclick="signOutUser()" >Signout</a></p>
     </div>
 
     <div>
@@ -32,28 +31,42 @@
                         <p>Username: <span id="usernameText">YourUserName</span></p>
                         <p>Display Name: <span id="displayNameText">YourDispName</span></p>
                         <p>Status: <span id="statusText">YourStatus</span></p>
+                        <p>bio: <span id="bioText"></span></p>
                     </td>
                     <td>
-                        <div class="inputGroup">
-                            <button>Following</button>
-                        </div>
-
-                        <div class="inputGroup">
-                            <label for="statusForm">Set new status:</label>
-                            <input type="text" id="statusForm" name="status" placeholder="active">
-                            <button>Confirm</button>
-                        </div>
-    
-                        <div class="inputGroup">
-                            <label for="setDisplayNameForm">Set new display name:</label>
-                            <input type="text" id="setDisplayNameForm" name="displayNameForm">
-                            <button>Confirm</button>
-                        </div>
-
-
-                        <div class="inputGroup">
-                            <button>Delete Account</button>
-                        </div>
+                        <form onsubmit="updateUserInfo(event)">
+                            <table>
+                                <tr> 
+                                    <td>
+                                        <label for="setDisplayNameForm">Display name:</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="setDisplayNameForm" name="displayNameForm">
+                                    </td>
+                                </tr>
+                                <tr> 
+                                    <td>
+                                        <label for="statusForm">Status:</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="statusForm" name="status" placeholder="active">
+                                    </td>
+                                </tr>
+                                <tr> 
+                                    <td id="bioTd">
+                                        <label id="setBioLabel" for="setBioFrom">Bio:</label>
+                                    </td>
+                                    <td>
+                                        <textarea id="setBioFrom" cols="40" rows="3" name="displayNameForm"></textarea>
+                                    </td>
+                                </tr>
+                                <tr> 
+                                    <td></td>
+                                    <td> <button>Submit</button></td>
+                                </tr>
+                                <tr> </tr>
+                            </table>
+                        </form>
                     
                     </td>
                 </tr>
@@ -63,6 +76,7 @@
     </div>
 
     <script src="./account.js"></script>
-   
+    <script src="./signOut.js"></script>
+
 </body>
 </html>

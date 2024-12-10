@@ -5,12 +5,10 @@ function sendLoginRequest(event){
 
     event.preventDefault(); // Stop the form from refreshing the page.
 
-      // Access the form element
-      const form = event.target;
-      // Get the username value from the form elements
-      const userNameString = form.username.value; // Access by the "name" attribute
-
-    console.log(userNameString);
+    // Access the form element
+    const form = event.target;
+    // Get the username value from the form elements
+    const userNameString = form.username.value; // Access by the "name" attribute
 
     const dataToSend = {username: userNameString};
 
