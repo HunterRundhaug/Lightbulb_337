@@ -14,8 +14,9 @@
           </a>
         <h1>LightBulb</h1>
         <div id="searchBar">
-            <form onsubmit="">
-                <input type="text" name="query" id="userSearchInput" placeholder="Search for users" required>
+            <form id="userSearchForm">
+                <input type="text" name="query" id="userSearchInput" 
+                placeholder="Search for users" autocomplete="off" required>
             </form>
         </div>
         <p><a id="signOutButton" onclick="signOutUser()" >Signout</a></p>
@@ -28,10 +29,40 @@
             <table id="infoTable">
                 <tr>
                     <td>
-                        <p>Username: <span id="usernameText">YourUserName</span></p>
-                        <p>Display Name: <span id="displayNameText">YourDispName</span></p>
-                        <p>Status: <span id="statusText">YourStatus</span></p>
-                        <p>bio: <span id="bioText"></span></p>
+                        <table id="currentDataTable">
+                            <tr>
+                                <td>
+                                    <p>Username </p>
+                                </td>
+                                <td class="rightSideP"> 
+                                    <p id="usernameText">YourUserName</p> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Display Name</p>
+                                </td>
+                                <td class="rightSideP">
+                                    <p id="displayNameText">YourDispName</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Status</p>
+                                </td>
+                                <td class="rightSideP">
+                                    <p id="statusText">YourStatus</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Bio</p>
+                                </td>
+                                <td class="rightSideP">
+                                    <p id="bioText"></p>
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                     <td>
                         <form onsubmit="updateUserInfo(event)">
@@ -77,6 +108,7 @@
 
     <script src="./account.js"></script>
     <script src="./signOut.js"></script>
+    <script src="./goToSearch.js"></script>
 
 </body>
 </html>

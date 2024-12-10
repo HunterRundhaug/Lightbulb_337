@@ -52,7 +52,7 @@ h2{
     top:0;
     width:20vw;
     height:100vh;
-    border-right: 1px solid #b8b8bc;
+    border-right: 3px solid rgb(62, 62, 62);
     background-color: rgb(50, 50, 50);
 
 }
@@ -89,7 +89,7 @@ h2{
     padding:0px;
     width: 100%;
     border-radius: 2px;
-    border-bottom: 1px solid #b8b8bc;
+    border-bottom: 3px solid rgb(62, 62, 62);
     background-color: rgb(50, 50, 50);
 
 }

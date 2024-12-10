@@ -14,9 +14,9 @@
           </a>
         <h1>LightBulb</h1>
         <div id="searchBar">
-            <form onsubmit="">
+            <form id="userSearchForm">
                 <input type="text" name="query" id="userSearchInput" 
-                placeholder="Search for users" required>
+                placeholder="Search for users" autocomplete="off" required>
             </form>
         </div>
         <p><a id="accountPageLink" href="./account.html">Account</a></p>
@@ -92,5 +92,6 @@
     
 
     <script src="./index.js"></script>
+    <script src="./goToSearch.js"></script>
 </body>
 </html>

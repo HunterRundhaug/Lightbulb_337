@@ -1,0 +1,67 @@
+
+
+body{
+    background-color: rgb(50, 50, 50);
+    padding:0;
+    margin:0;
+    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+h2{
+    text-align: center;
+}
+
+#searchSection{
+    margin:0;
+    padding: 0;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    gap: 20px; 
+    border-bottom: 1px solid #b8b8bc;
+    background-color: #ff7e5f
+}
+
+#homeButtonImg{
+    width:30px;
+}
+
+#accountPageLink{
+    text-decoration: none;
+    color:white;
+}
+
+#accountPageLink:hover{
+    color:rgb(62, 62, 62);
+}
+
+#searchBar input[type="text"]{
+    width: 40vw;
+    padding:5px;
+    border-radius: 20px;
+}
+
+#signOutButton:hover{
+    color:rgb(62, 62, 62);
+    cursor: pointer;
+}
+
+#whatWasSearched{
+    text-align: center;
+}
+
+#sectionWrapper{
+    display: flex;
+    justify-content: center;
+}
+
+#searchResults{
+    display: flex;
+    width: 60%;
+    height: 100px;
+    border-top: 2px solid rgb(62, 62, 62);
+    border-bottom: 2px solid rgb(62, 62, 62);
+
+}
+

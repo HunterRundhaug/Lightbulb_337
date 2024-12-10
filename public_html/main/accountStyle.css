@@ -39,8 +39,8 @@ h2{
 }
 
 #infoDiv{
-    border-top: 1px solid  #b8b8bc;
-    border-bottom: 1px solid  #b8b8bc;
+    border-top: 3px solid  rgb(62, 62, 62);
+    border-bottom: 3px solid  rgb(62, 62, 62);
     padding: 5%;
 }
 
@@ -56,8 +56,29 @@ h2{
 
 }
 
+#currentDataTable{
+    padding: 5px;
+    border: 2px solid rgb(62, 62, 62);
+    border-radius: 5px;
+}
+
+.rightSideP{
+    padding-left: 100px;
+}
+
+.rightSideP p{
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid black;
+}
+
 .inputGroup{
     margin-top: 15px;
+}
+
+td input{
+    background-color: #ececec; 
+    border-radius: 5px;
 }
 
 #setBioLabel{
@@ -67,6 +88,7 @@ h2{
 
 textarea{
     resize:none;
+    background-color: #ececec; 
 }
 
 tr{
@@ -75,5 +97,6 @@ tr{
 
 #bioTd{
     vertical-align: top;
+
 }
 
