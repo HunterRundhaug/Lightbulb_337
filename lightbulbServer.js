@@ -7,6 +7,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const mongoConnectStore = require('connect-mongo');
 const path = require('path');
 
 
@@ -24,43 +25,99 @@ app.use('/loginPage', express.static(path.join(__dirname, 'public_html', 'signIn
 
 app.use(
     session({
-        secret: '12345', // Replace with a strong, unique secret
-        resave: false, // Prevents resaving unmodified sessions
-        saveUninitialized: true, // Saves uninitialized sessions to the store
-        cookie: { secure: false }, // Set to true if using HTTPS
+        secret: '12345',
+        resave: false,
+        saveUninitialized: false,
+        store: mongoConnectStore.create({
+            mongoUrl: 'mongodb://127.0.0.1/lightbulbDB',
+            collectionName: 'Sessions', // collection name
+        }),
+        cookie: { secure: false },
     })
 );
 
-// TODO: make routes
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
+// Returns if the user has an active session with a valid username.
+function isAuthenticated(req) {
+    if (req.session.username) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+// ROUTES
+
+// Get list of user accounts from search
+app.post('/searchForUsers', async (req, res) => {
+
+
+    try {
+        // Make sure a user is signed in.
+        if (!isAuthenticated(req)) {
+            return res.status(403).send("not signed in");
+        }
+
+        const query = req.body.query;
+
+        const accounts = await User.find({ dispName: new RegExp(query, 'i') }).limit(10);
+
+        const clientDocument = await User.findOne({ username: req.session.username });
+
+
+
+        let clientFollowList = [];
+        if (clientDocument) {
+            clientFollowList = clientDocument.followList;
+        }
+
+        let usersPackaged = accounts.map(account => {
+            const isFollowed = clientFollowList.includes(account.username);
+            return {
+                isFollowing: isFollowed,
+                userName: account.userName,
+                dispName: account.dispName,
+                status: account.status,
+            }
+        });
+
+        console.log(usersPackaged);
+
+        res.json(usersPackaged);
+
+    }
+    catch(error) {
+        console.log(error);
+        res.status(500).send("internal server malfunction");
+    }
+
 });
 
 // Get current user Route from session data
 // Used for retrieving the currently signed in user on the main page.
 app.get('/getCurrentUser', async (req, res) => {
     if (req.session.username) {
-        try{
+        try {
             const username = req.session.username;
-            const currentUser = await User.findOne({userName: username}); // get the current user document
-            if(currentUser){
-            
-            res.json({ 
-                dispName: currentUser.dispName,
-                userName: currentUser.userName,           // < -- used as unique ID within database
-                // Probably need to add list of people they follow...
-                bio: currentUser.bio,
-                status: currentUser.status
-            }); // Send the users display Name Back
+            const currentUser = await User.findOne({ userName: username }); // get the current user document
+            if (currentUser) {
+
+                res.json({
+                    dispName: currentUser.dispName,
+                    userName: currentUser.userName,           // < -- used as unique ID within database
+                    // Probably need to add list of people they follow...
+                    bio: currentUser.bio,
+                    status: currentUser.status
+                }); // Send the users display Name Back
             }
-            else{
+            else {
                 res.status(404).json({ message: 'User not found' });
             }
         }
-        catch(error){
+        catch (error) {
             res.status(500).json({ message: 'Server error' });
         }
-        
+
     } else {
         res.status(401).json({ message: 'Not authenticated' });
     }
@@ -100,19 +157,19 @@ app.get('/main', (req, res) => {
 
 // Logout Route
 app.post('/logout', (req, res) => {
-    if(req.session.username) {
+    if (req.session.username) {
         // if the user has a valid session
         req.session.destroy(error => {
             if (error) {
-              console.error("Error destroying session:", error);
-              res.status(500).send('Internal server error');
-              console.log("logoutError");
+                console.error("Error destroying session:", error);
+                res.status(500).send('Internal server error');
+                console.log("logoutError");
             } else {
-              res.redirect('/loginPage'); // Redirect to login or home page
+                res.redirect('/loginPage'); // Redirect to login or home page
             }
-          });
+        });
     }
-    else{
+    else {
         res.status(403).send("not logged in");
     }
 });
@@ -134,17 +191,17 @@ app.post('/makeNewUser', async (req, res) => {
         const userAlreadyExists = await User.findOne({ userName: inputUserName });
         if (userAlreadyExists) {
             res.status(409).send("User name taken");
-         } else {
-             let newUser = new User({
-                 userName: inputUserName,
-                 dispName: inputDisplayName,
-                 followList: [],
-                 bio: "",
-                 status: ""
-             });
-             await newUser.save();
-             res.send("User added successfully");
-         }
+        } else {
+            let newUser = new User({
+                userName: inputUserName,
+                dispName: inputDisplayName,
+                followList: [],
+                bio: "",
+                status: ""
+            });
+            await newUser.save();
+            res.send("User added successfully");
+        }
     } catch (err) {
         console.error('Error querying the database:', err);
         res.status(500).send('Internal server error');
@@ -179,7 +236,7 @@ app.get("/makeNewPost/:userName/:content", async (req, res) => {
 
 // Route for updating user info for existing user
 app.post("/updateUserInfo", async (req, res) => {
-    
+
     const inputStatus = req.body.status;
     const inputDispName = req.body.dispname;
     const inputBio = req.body.bio;
@@ -188,12 +245,14 @@ app.post("/updateUserInfo", async (req, res) => {
         // Checks if session is valid
         if (req.session.username) {
             await User.updateOne(
-                { userName : req.session.username},
-                {$set: {
-                    dispName: inputDispName,
-                    bio: inputBio,
-                    status: inputStatus,
-                }}
+                { userName: req.session.username },
+                {
+                    $set: {
+                        dispName: inputDispName,
+                        bio: inputBio,
+                        status: inputStatus,
+                    }
+                }
             );
             res.send("Successfully updated profile!");
         } else { // If no session found
@@ -214,7 +273,7 @@ app.get("/makeNewComment/:postID/:content", async (req, res) => {
     let inputUserName = req.params.userName;
     let inputContent = req.params.content;
 
-    let 
+    let
 
 })
 
@@ -233,7 +292,7 @@ mongoose.connect(mongoURL)
 const userSchema = new mongoose.Schema({
     dispName: String,
     userName: String,           // < -- used as unique ID within database
-    followList: [{ type: mongoose.Types.ObjectId, ref: "User" }],
+    followList: [String],
     bio: String,
     status: String
 });
@@ -241,7 +300,7 @@ const User = mongoose.model("User", userSchema);
 
 // Schema for Post
 const postSchema = new mongoose.Schema({
-    authorUser: { type: mongoose.Schema.Types.ObjectId, ref: "User"},
+    authorUser: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     content: String,
     thumbsUpCount: Number,
     thumbsDownCount: Number,
@@ -254,7 +313,7 @@ const Post = mongoose.model("Post", postSchema);
 // Schema for Comment
 // TODO: add author ID
 const commentSchema = new mongoose.Schema({
-    associatedPost: { type: mongoose.Schema.Types.ObjectId, ref: "Post"},
+    associatedPost: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
     content: String,
     timestamp: Date
 });
