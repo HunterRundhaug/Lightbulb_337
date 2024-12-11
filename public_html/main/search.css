@@ -27,6 +27,11 @@ h2{
     width:30px;
 }
 
+#homeButtonImg:hover{
+    border-bottom: 3px solid rgb(62, 62, 62);
+    border-radius: 8px;
+}
+
 #accountPageLink{
     text-decoration: none;
     color:white;

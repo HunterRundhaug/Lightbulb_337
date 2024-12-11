@@ -65,23 +65,40 @@ form{
     justify-content: center;
 }
 
+@keyframes btnPaddingAnim {
+    0% { padding: 5px;
+        padding-left: 20px;
+        padding-right: 20px; }
+
+    100% { padding: 8px;
+        padding-left: 25px;
+        padding-right: 25px; }
+  }
+  
+
 button{
+    position: fixed;
     padding: 5px;
     padding-left: 20px;
     padding-right: 20px;
     border:none;
     border-radius: 15px;
     font-size: large;
-    background-color: lightcoral;
+    background-color: rgb(240, 106, 106);
     color: white;
 }
 
-button:focus{
-    background-color: rgb(242, 182, 182);
-    color: black;
+button:hover{
+    background-color: coral;
+    animation: btnPaddingAnim .2s forwards;
+}
+
+button:active{
+    background-color: rgb(212, 72, 21);
 }
 
 #backToLoginDiv{
+    margin-top: 20%;
     text-align: center;
 }
 
