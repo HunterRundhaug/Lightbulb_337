@@ -12,7 +12,7 @@
         <a href="./index.html">
             <img id="homeButtonImg" src="./images/homeButton.png" alt="Home Button" />
           </a>
-          <a href="./createPost.html">
+        <a href="./createPost.html">
             <img id="postButtonImg" src="./images/postIcon.png" alt="Post Button">
         </a>
         <h1>LightBulb</h1>
@@ -22,7 +22,8 @@
                 placeholder="Search for users" autocomplete="off" required>
             </form>
         </div>
-        <p><a id="signOutButton" onclick="signOutUser()" >Signout</a></p>
+        <p><a id="accountPageLink" href="./account.html">Account</a></p>
+        <p id="currentUserName">yourName</p>
     </div>
 
     <div>
@@ -78,11 +79,12 @@
     
     </div>
 
-  
+    <script src="./index.js"></script>
     <script src="./signOut.js"></script>
     <script src="./goToSearch.js"></script>
     <script src="./goToProfile.js"></script>
     <script src="./loadProfilePosts.js"></script>
+    <script src="./follow.js"></script>
 
 </body>
 </html>

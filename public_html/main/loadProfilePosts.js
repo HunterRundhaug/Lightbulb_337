@@ -4,8 +4,7 @@
 
 
 const postSectionObj = document.getElementById("postWrapperDiv");
-
-window.onload = loadProfilePosts;
+window.addEventListener('load',loadProfilePosts);
 
 async function loadProfilePosts() {
 

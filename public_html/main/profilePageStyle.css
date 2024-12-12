@@ -49,15 +49,52 @@ h2{
     border-radius: 20px;
 }
 
-#signOutButton:hover{
+
+#accountPageLink{
+    text-decoration: none;
+    color:white;
+}
+
+#accountPageLink:hover{
     color:rgb(62, 62, 62);
-    cursor: pointer;
 }
 
 #infoDiv{
     border-top: 3px solid  rgb(62, 62, 62);
     border-bottom: 3px solid  rgb(62, 62, 62);
-    padding: 5%;
+    padding: 2%;
+}
+
+#followBtnDiv{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2%;
+}
+
+#followForm{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#followButton{
+    color: white;
+    background-color:rgb(62, 62, 62);
+    padding-top: 10px;
+    padding-bottom: 10px;
+   
+    border-radius: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    transition: width 0.2s;
+}
+
+#followButton:hover{
+    width: 20%;
+}
+
+#followButton:active{
+    background-color: black;
 }
 
 #infoTable{
@@ -130,6 +167,7 @@ tr{
     width: 100%;
     padding: 0px;
     margin: 0px;
+    overflow-y: auto;
 }
 
 .singlePost{

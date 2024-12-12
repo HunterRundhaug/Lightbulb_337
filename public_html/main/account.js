@@ -1,6 +1,5 @@
 
 
-
 // Initalize Page for currently signed in user...
 const usernameObj = document.getElementById("usernameText");
 const displayNameObj = document.getElementById("displayNameText");
@@ -14,7 +13,7 @@ const bioForm = document.getElementById("setBioFrom");
 async function getCurrentlySignedInUser(){
     console.log("function called");
     try{
-        const response = await fetch('http://localhost:3000/getCurrentUser');
+        const response = await fetch(`http://localhost:3000/getCurrentUser`);
         if(response.ok){
             const user = await response.json();
             let userName = user.userName;

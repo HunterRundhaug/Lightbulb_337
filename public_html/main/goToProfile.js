@@ -25,10 +25,7 @@ async function initiateProfileFetch(){
     const titleObj = document.getElementById("currentProfileTitle");
     titleObj.innerText = userQuery;
     
-    dataToSend = {
-        query: userQuery,
-    }
-
+    console.log(userQuery);
     // Send request for target users info
     const response = await fetch(`http://localhost:3000/getRequestedUsersInfo/${userQuery}`, {
         method: 'GET'
@@ -47,6 +44,18 @@ async function initiateProfileFetch(){
             displayNameObj.innerText = displayName;
             statusObj.innerText = status;
             bioObj.innerText = bio;
+
+            const infoDiv = document.getElementById("infoDiv");
+
+            const buttonTxt = user.isFollowing ? "unfollow" : "follow";
+
+            infoDiv.insertAdjacentHTML('beforeend',`
+                    <div id="followBtnDiv">
+                        <form id="followForm" onsubmit="postFollowRequest(event, '${userName}', ${user.isMe}, ${user.isFollowing})">
+                            <button id="followButton">${buttonTxt}</button>
+                        </form>
+                    </div>
+                `)
         }
          else {
             alert(response.status);

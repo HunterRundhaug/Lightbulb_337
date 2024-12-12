@@ -285,6 +285,14 @@ app.get('/getRequestedUsersInfo/:user', async (req, res) => {
 
     // Finds requested user in DB
     const targetUserInfo = await User.findOne({ userName: req.params.user });
+    if(!targetUserInfo){
+        res.status(500).send("invalid User");
+        return;
+    }
+    const clientDocument = await User.findOne({userName: req.session.username});
+    const clientFollowing = clientDocument.followList;
+    const isMe = targetUserInfo.userName === req.session.username;
+    const isFollowing = clientFollowing.includes(targetUserInfo.userName);
 
     // Makes JSON with only the necessary info from user
     const targetUserInfoJSON = {
@@ -292,7 +300,9 @@ app.get('/getRequestedUsersInfo/:user', async (req, res) => {
         userName: targetUserInfo.userName,
         bio: targetUserInfo.bio,
         status: targetUserInfo.status,
-        numFollowing: targetUserInfo.followList.length  // Stores # of users in follow lists
+        numFollowing: targetUserInfo.followList.length,  // Stores # of users in follow lists
+        isMe: isMe,
+        isFollowing: isFollowing,
     };
 
     // Sends JSON of user info back to client
@@ -301,7 +311,6 @@ app.get('/getRequestedUsersInfo/:user', async (req, res) => {
 
 // Route for adding someone to a follow list
 app.post('/toggleFollowUser', async (req, res) => {
-
     if (!isAuthenticated(req)) {
         return;
     }
@@ -340,7 +349,7 @@ app.get("/getFeed", async (req, res) => {
         const followingList = userDocument.followList;
         const postList = await Post.find({ authorUser: { $in: followingList } })
             .sort({ timestamp: -1 });
-            
+
         let postsPackaged = postList.map(post => {
             return {
                 username: post.authorUser,
@@ -440,40 +449,3 @@ const commentSchema = new mongoose.Schema({
     timestamp: Date
 });
 const Comment = mongoose.model("Comment", commentSchema);
-
-// ******* delete everything below lol
-
-async function main() {
-
-
-    // Dummy user create test
-    let newUser1 = new User({
-        userName: "Bob",
-        dispName: "BillyBob",
-        followList: [],
-        bio: "Im bob the guy that builds",
-        status: "Chilling"
-    });
-    await newUser1.save();
-
-    /*
-    // Dummy post create test
-    let newPost = new Post ({
-        authorUser: newUser._id,
-        content: "Who up getting they triple collateral?",
-        thumbsUpCount: 111,
-        thumbsDownCount: 222,
-        timestamp: Date.now()
-    })
-    await newPost.save();
-
-    // Dummy comment create test
-    let newComment = new Post ({
-        associatedPost: newPost._id,
-        content: "Hunter: me",
-        timestamp: Date.now()
-    });
-    */
-}
-
-
