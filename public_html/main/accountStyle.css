@@ -32,6 +32,17 @@ h2{
     border-radius: 8px;
 }
 
+
+#postButtonImg{
+    width:28px;
+}
+
+#postButtonImg:hover{
+    border-bottom: 3px solid rgb(62, 62, 62);
+    border-radius: 8px;
+}
+
+
 #searchBar input[type="text"]{
     width: 40vw;
     padding:5px;

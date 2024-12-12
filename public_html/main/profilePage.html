@@ -12,6 +12,9 @@
         <a href="./index.html">
             <img id="homeButtonImg" src="./images/homeButton.png" alt="Home Button" />
           </a>
+          <a href="./createPost.html">
+            <img id="postButtonImg" src="./images/postIcon.png" alt="Post Button">
+        </a>
         <h1>LightBulb</h1>
         <div id="searchBar">
             <form id="userSearchForm">
@@ -64,15 +67,9 @@
                             </tr>
                         </table>
                     </td>
-                    <td>
+                    <td id="postsTd">
                        <div id="postWrapperDiv">
-                            <div>
-                                <textarea cols="80" rows="5">First post</textarea>
-                            </div>
-                            <div>
-                                <textarea cols="80" rows="5">Second post</textarea>
-                            </div>
-
+        
                        </div>
                     </td>
                 </tr>
@@ -85,6 +82,7 @@
     <script src="./signOut.js"></script>
     <script src="./goToSearch.js"></script>
     <script src="./goToProfile.js"></script>
+    <script src="./loadProfilePosts.js"></script>
 
 </body>
 </html>

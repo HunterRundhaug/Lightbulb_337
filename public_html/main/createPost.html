@@ -26,7 +26,7 @@
     <div id="mainSectionWrapper">
 
         <div id="postSection">
-            <form>
+            <form onsubmit="createAndSendPost(event)">
                 <div id="postFormDiv">
                     <label>Create New Post</label>
                     <textarea id="postContextTextArea" maxlength="240" rows="10" placeholder="content goes here"></textarea>
@@ -41,6 +41,7 @@
     
     <script src="./index.js"></script>
     <script src="./goToSearch.js"></script>
+    <script src="./createPost.js"></script>
 
 </body>
 </html>

@@ -10,7 +10,9 @@ async function getCurrentlySignedInUser(){
             let displayName = user.dispName;
             currentUserFollowList = user.followList;
             currentUserElement.innerText = displayName;
-            populateFollowingSidebar(currentUserFollowList);
+            if(window.location.pathname === "/main/" || window.location.pathname === "/main/index.html"){
+                populateFollowingSidebar(currentUserFollowList);
+            }
         }
         else{
             console.log('It seems the user is not authenticated.');

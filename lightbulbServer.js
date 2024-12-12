@@ -83,12 +83,12 @@ app.post('/searchForUsers', async (req, res) => {
             }
         });
 
-       
+
 
         res.json(usersPackaged);
 
     }
-    catch(error) {
+    catch (error) {
         console.log(error);
         res.status(500).send("internal server malfunction");
     }
@@ -211,28 +211,35 @@ app.post('/makeNewUser', async (req, res) => {
 });
 
 // Route for creating a new post
-// TODO: Check if content is empty
-// TODO: Check if no such author exists
-// TODO: Check if too long (?)
-// TODO: Change to post
-app.get("/makeNewPost/:userName/:content", async (req, res) => {
+app.post("/makeNewPost", async (req, res) => {
 
-    let inputUserName = req.params.userName;
-    let inputContent = req.params.content;
+    try {
+        // If not auth then return and dont make new post.
+        if (!isAuthenticated(req)) {
+            res.status(403).send("not logged in");
+            return
+        }
 
-    // Finds db ID of the user who created the post
-    let userID = await User.findOne({ userName: inputUserName });
+        // Finds db ID of the user who created the post
+        let userID = await User.findOne({ userName: req.session.username });
 
-    // Creates new post in database
-    let newPost = new Post({
-        authorUser: userID._id,
-        content: inputContent,
-        thumbsUpCount: 0,
-        thumbsDownCount: 0,
-        timestamp: Date.now()
-    });
-    await newPost.save();
-    res.send("Post added successfully");
+        const inputContent = req.body.content;
+        // Creates new post in database
+        let newPost = new Post({
+            authorUser: req.session.username,
+            content: inputContent,
+            thumbsUpCount: 0,
+            thumbsDownCount: 0,
+            timestamp: Date.now()
+        });
+        await newPost.save();
+        res.send("Post added successfully");
+
+    }
+    catch (error) {
+        console.log("error making new post " + error);
+        res.status(error).send("Internal Server Error");
+    }
 });
 
 // Route for updating user info for existing user
@@ -277,7 +284,7 @@ app.get('/getRequestedUsersInfo/:user', async (req, res) => {
     }
 
     // Finds requested user in DB
-    const targetUserInfo = await User.findOne( {userName: req.params.user} );
+    const targetUserInfo = await User.findOne({ userName: req.params.user });
 
     // Makes JSON with only the necessary info from user
     const targetUserInfoJSON = {
@@ -294,7 +301,7 @@ app.get('/getRequestedUsersInfo/:user', async (req, res) => {
 
 // Route for adding someone to a follow list
 app.post('/toggleFollowUser', async (req, res) => {
-    
+
     if (!isAuthenticated(req)) {
         return;
     }
@@ -305,7 +312,7 @@ app.post('/toggleFollowUser', async (req, res) => {
     const username = req.session.username; // Gets current sessions username
     const currentUser = await User.findOne({ userName: username }); // Accesses their DB User doc
 
-    console.log("User who made request to follow/unfollow: "+ currentUser.userName);
+    console.log("User who made request to follow/unfollow: " + currentUser.userName);
     console.log("User to follow/unfollow: " + userToToggle);
 
     // Removes user if present
@@ -317,6 +324,72 @@ app.post('/toggleFollowUser', async (req, res) => {
     await currentUser.save(); // Updates DB
 
     res.send("Handled request successfully");
+})
+
+// get Route for getting main feed...
+app.get("/getFeed", async (req, res) => {
+    try {
+        if (!isAuthenticated(req)) {
+            res.status(403).send("not Signed in");
+            return;
+        }
+        const userDocument = await User.findOne({ userName: req.session.username });
+        if (!userDocument) { // quick check for null value
+            res.status(500).send("current user not found!");
+        }
+        const followingList = userDocument.followList;
+        const postList = await Post.find({ authorUser: { $in: followingList } })
+            .sort({ timestamp: -1 });
+            
+        let postsPackaged = postList.map(post => {
+            return {
+                username: post.authorUser,
+                content: post.content,
+                likes: post.thumbsUpCount,
+                dislikes: post.thumbsDownCount,
+                timestamp: post.timestamp,
+            }
+        });
+
+        res.json(postsPackaged);
+
+    }
+    catch (error) {
+        console.log("Error getting main feed: " + error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+// get Route for getting a single users Posts...
+app.get("/getUserPosts/:username", async (req, res) => {
+
+    try {
+        if (!isAuthenticated(req)) {
+            res.status(403).send("not signed in, cant see posts...");
+            return;
+        }
+        const usernameToQuery = req.params.username;
+        const profilePostDocuments = await Post.find({ authorUser: usernameToQuery });
+
+        let postsPackaged = profilePostDocuments.map(post => {
+            return {
+                username: post.authorUser,
+                content: post.content,
+                likes: post.thumbsUpCount,
+                dislikes: post.thumbsDownCount,
+                timestamp: post.timestamp,
+            }
+        });
+
+        res.json(postsPackaged);
+
+    }
+    catch (error) {
+        console.log("error in getUserPosts: " + error);
+        res.status(500).send("Internal Server Error");
+    }
+
+
 })
 
 // TODO: implement
@@ -349,7 +422,7 @@ const User = mongoose.model("User", userSchema);
 
 // Schema for Post
 const postSchema = new mongoose.Schema({
-    authorUser: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    authorUser: String,
     content: String,
     thumbsUpCount: Number,
     thumbsDownCount: Number,
