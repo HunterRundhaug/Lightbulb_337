@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const mongoConnectStore = require('connect-mongo');
 const path = require('path');
-
+const { openAsBlob } = require('fs');
 
 // Sets up express app, port number
 const app = express();
@@ -62,7 +62,7 @@ app.post('/searchForUsers', async (req, res) => {
 
         const accounts = await User.find({ dispName: new RegExp(query, 'i') }).limit(10);
 
-        const clientDocument = await User.findOne({ username: req.session.username });
+        const clientDocument = await User.findOne({ userName: req.session.username });
 
 
 
@@ -72,8 +72,10 @@ app.post('/searchForUsers', async (req, res) => {
         }
 
         let usersPackaged = accounts.map(account => {
-            const isFollowed = clientFollowList.includes(account.username);
+            const isFollowed = clientFollowList.includes(account.userName);
+            const isClientsAccount = req.session.username === account.userName;
             return {
+                isMe: isClientsAccount,
                 isFollowing: isFollowed,
                 userName: account.userName,
                 dispName: account.dispName,
@@ -81,7 +83,7 @@ app.post('/searchForUsers', async (req, res) => {
             }
         });
 
-        console.log(usersPackaged);
+       
 
         res.json(usersPackaged);
 
@@ -101,11 +103,10 @@ app.get('/getCurrentUser', async (req, res) => {
             const username = req.session.username;
             const currentUser = await User.findOne({ userName: username }); // get the current user document
             if (currentUser) {
-
                 res.json({
                     dispName: currentUser.dispName,
                     userName: currentUser.userName,           // < -- used as unique ID within database
-                    // Probably need to add list of people they follow...
+                    followList: currentUser.followList,
                     bio: currentUser.bio,
                     status: currentUser.status
                 }); // Send the users display Name Back
@@ -268,14 +269,62 @@ app.post("/updateUserInfo", async (req, res) => {
 
 });
 
+// Route for getting a user's info, EX for populating a page with basic info on target user
+app.get('/getRequestedUsersInfo/:user', async (req, res) => {
+
+    if (!isAuthenticated(req)) {
+        return;
+    }
+
+    // Finds requested user in DB
+    const targetUserInfo = await User.findOne( {userName: req.params.user} );
+
+    // Makes JSON with only the necessary info from user
+    const targetUserInfoJSON = {
+        dispName: targetUserInfo.dispName,
+        userName: targetUserInfo.userName,
+        bio: targetUserInfo.bio,
+        status: targetUserInfo.status,
+        numFollowing: targetUserInfo.followList.length  // Stores # of users in follow lists
+    };
+
+    // Sends JSON of user info back to client
+    res.send(targetUserInfoJSON);
+});
+
+// Route for adding someone to a follow list
+app.post('/toggleFollowUser', async (req, res) => {
+    
+    if (!isAuthenticated(req)) {
+        return;
+    }
+
+    // String of user to either add or remove
+    const userToToggle = req.body.userToToggle;
+
+    const username = req.session.username; // Gets current sessions username
+    const currentUser = await User.findOne({ userName: username }); // Accesses their DB User doc
+
+    console.log("User who made request to follow/unfollow: "+ currentUser.userName);
+    console.log("User to follow/unfollow: " + userToToggle);
+
+    // Removes user if present
+    if (currentUser.followList.includes(userToToggle)) {
+        currentUser.followList.pull(userToToggle)
+    } else {    // Else, adds user to follow list
+        currentUser.followList.addToSet(userToToggle);
+    }
+    await currentUser.save(); // Updates DB
+
+    res.send("Handled request successfully");
+})
+
+// TODO: implement
 app.get("/makeNewComment/:postID/:content", async (req, res) => {
 
     let inputUserName = req.params.userName;
     let inputContent = req.params.content;
-
-    let
-
-})
+});
 
 // Starts up express server
 app.listen(port, "localhost", () => {

@@ -78,7 +78,7 @@ form{
   
 
 button{
-    position: fixed;
+    position: absolute;
     padding: 5px;
     padding-left: 20px;
     padding-right: 20px;

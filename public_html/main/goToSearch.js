@@ -1,5 +1,3 @@
-
-
 const searchResultArea = document.getElementById("searchResults");
 
 // Redirects client to search page with input search...
@@ -15,7 +13,6 @@ document.getElementById("userSearchForm").addEventListener('submit', (event) => 
         window.location.href = `/main/search.html?q=${encodeURIComponent(searchInput)}`;
     }
 });
-
 
 // if we are located at the search page, call the initiateSearch function
 if(window.location.pathname === '/main/search.html'){
@@ -50,21 +47,7 @@ async function initiateSearch(){
             // where we catch the response
             const results = await response.json();
             // Append new html to searchResults...
-
-            // Iterate through results, and generate html.
-            results.forEach( result => {
-                const newResultDiv = document.createElement("div");
-                newResultDiv.className = "resultDiv";
-                const buttonName = result.isFollowing ? "unfollow" : "follow";
-                newResultDiv.innerHTML = `
-                <p id="userNameResult"> ${result.userName} </p>
-                <p id="dispNameResult"> ${result.dispName} </p>
-                <p id="statusResult"> ${result.status} </p>
-                <button> ${buttonName} </button>
-                `
-                searchResultArea.appendChild(newResultDiv);
-            });
-
+            generateHTML(results);
         }
          else {
             alert(response.status);
@@ -74,6 +57,28 @@ async function initiateSearch(){
         // Handle errors from the fetch call
         console.error('Error:', error);
     });
-
 }
 
+function generateHTML(results){
+     // Iterate through results, and generate html.
+     results.forEach( result => {
+        const newResultDiv = document.createElement("div");
+        newResultDiv.className = "resultDiv";
+        let buttonName;
+        if( !result.isMe){
+            buttonName = result.isFollowing ? "unfollow" : "follow";
+        }
+        else{
+            buttonName = "follow myself ?";
+        }
+        newResultDiv.innerHTML = `
+        <form onsubmit="postFollowRequest(event, '${result.userName}', ${result.isMe}), ${result.isFollowing} ">
+        <button type="button" onclick="goToProfile('${result.userName}')" id="userNameResult">${result.userName}</button>
+        <p id="dispNameResult">${result.dispName}</p>
+        <p id="statusResult">${result.status}</p>
+        <button type="submit">${buttonName}</button>
+        </form>
+        `
+        searchResultArea.appendChild(newResultDiv);
+    });
+}

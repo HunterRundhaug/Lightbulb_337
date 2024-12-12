@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Your Page Title</title>
-    <link rel="stylesheet" href="./search.css"> 
+    <link rel="stylesheet" href="./createPostStyle.css"> 
 </head>
 
 <body>
@@ -23,20 +23,24 @@
         <p id="currentUserName">yourName</p>
     </div>
 
-    <h2>Search Results</h2>
-    <p id="whatWasSearched">result...</p>
-    <div id="sectionWrapper">
-        <div id="searchResults">
-            
+    <div id="mainSectionWrapper">
 
+        <div id="postSection">
+            <form>
+                <div id="postFormDiv">
+                    <label>Create New Post</label>
+                    <textarea id="postContextTextArea" maxlength="240" rows="10" placeholder="content goes here"></textarea>
+                    <div id="postSubmitButtonDiv">
+                        <button>Post</button>
+                    </div>
+                </div>
+            </form>
         </div>
-
+       
     </div>
-
+    
     <script src="./index.js"></script>
     <script src="./goToSearch.js"></script>
-    <script src="./follow.js"></script>
-    <script src="./goToProfile.js"></script>
 
 </body>
 </html>

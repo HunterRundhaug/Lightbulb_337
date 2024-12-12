@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="./profilePageStyle.css"> 
+</head>
+
+<body>
+    <div id="searchSection">
+        <a href="./index.html">
+            <img id="homeButtonImg" src="./images/homeButton.png" alt="Home Button" />
+          </a>
+        <h1>LightBulb</h1>
+        <div id="searchBar">
+            <form id="userSearchForm">
+                <input type="text" name="query" id="userSearchInput" 
+                placeholder="Search for users" autocomplete="off" required>
+            </form>
+        </div>
+        <p><a id="signOutButton" onclick="signOutUser()" >Signout</a></p>
+    </div>
+
+    <div>
+        <h2><span id="currentProfileTitle"></span>'s Profile</h2>
+
+        <div id="infoDiv">
+            <table id="infoTable">
+                <tr>
+                    <td>
+                        <table id="currentDataTable">
+                            <tr>
+                                <td>
+                                    <p>Username </p>
+                                </td>
+                                <td class="rightSideP"> 
+                                    <p id="usernameText">YourUserName</p> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Display Name</p>
+                                </td>
+                                <td class="rightSideP">
+                                    <p id="displayNameText">YourDispName</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Status</p>
+                                </td>
+                                <td class="rightSideP">
+                                    <p id="statusText">YourStatus</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Bio</p>
+                                </td>
+                                <td class="rightSideP">
+                                    <p id="bioText"></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                       <div id="postWrapperDiv">
+                            <div>
+                                <textarea cols="80" rows="5">First post</textarea>
+                            </div>
+                            <div>
+                                <textarea cols="80" rows="5">Second post</textarea>
+                            </div>
+
+                       </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    
+    </div>
+
+  
+    <script src="./signOut.js"></script>
+    <script src="./goToSearch.js"></script>
+    <script src="./goToProfile.js"></script>
+
+</body>
+</html>
