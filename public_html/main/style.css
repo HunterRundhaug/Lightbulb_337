@@ -119,6 +119,7 @@ h2 {
 }
 
 .postInContentSection {
+    margin-left: 20px;
     margin-top: 10px;
     padding-bottom: 5px;
     width: 100%;
@@ -130,6 +131,8 @@ h2 {
 
 .contentInPost {
     padding: 3px;
+    max-width: 700px;
+    overflow-wrap: break-word;
 }
 
 img.likeDislikeImg {
