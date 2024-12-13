@@ -1,5 +1,3 @@
-
-
 /*
     Authors: Hunter Rundhaug & Theodore Reyes.
     File: commentPage.js
@@ -8,9 +6,10 @@
         that a user follows.
 */
 
+// Grabs main feed div for later use in client-side JS
 const mainFeedDomObj = document.getElementById("contentSection");
 
-// fetch GET request to get the main feed data.
+// Fetch request to get the main feed data
 async function getMainFeed() {
 
     // Send request for getting main feed
@@ -39,7 +38,7 @@ async function getMainFeed() {
 // generate HTML for each post in the post section.
 function generateHTML(results) {
 
-    // Iterate through results, and generate html.
+    // Iterate through results, and generate html
     results.forEach(result => {
         const timeStamp = result.timestamp;
         const dateTime = timeStamp.split('.')[0].replace('T', ' ');
@@ -62,10 +61,10 @@ function generateHTML(results) {
                 onclick="goToCommentPage('${result.postId}')">See comment section</button>
             </div>
         `
+        // Appends generated HTML to main feed div (referenced at top of this file)
         mainFeedDomObj.appendChild(newResultDiv);
-
     });
 }
 
-
+// Adds event listener for window on load
 window.addEventListener('load', getMainFeed);

@@ -9,20 +9,17 @@
 
 // Main async method for toggling the following status for a user
 async function postFollowRequest(event, userName, isMe, alreadyFollowing) {
-    event.preventDefault();
+    event.preventDefault();    // Prevents page from reloading
+
+    // Grabs event target and form submit button
     const formElement = event.target;
     const formButton = formElement.querySelector('button[type="submit"]');
 
-    console.log()
-
-    if (isMe) {   // Prevents following self
+    if (isMe)       // Prevents following self
         return;
-    }
 
     // Contains name of user the session user wishes to follow or unfollow
-    dataToSend = {
-        userToToggle: userName
-    }
+    dataToSend = { userToToggle: userName }
 
     // Sends request to server
     response = await fetch("http://localhost:3000/toggleFollowUser", {
@@ -33,6 +30,7 @@ async function postFollowRequest(event, userName, isMe, alreadyFollowing) {
         body: JSON.stringify(dataToSend)
     });
 
+    // 
     if (formButton.innerHTML === "follow") {
         formButton.innerHTML = `${userName} followed!`;
         formButton.disabled = true;
@@ -41,5 +39,4 @@ async function postFollowRequest(event, userName, isMe, alreadyFollowing) {
         formButton.innerHTML = `${userName} unfollowed`;
         formButton.disabled = true;
     }
-
 }

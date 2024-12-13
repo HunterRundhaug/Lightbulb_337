@@ -1,4 +1,3 @@
-
 /*
     Authors: Hunter Rundhaug & Theodore Reyes.
     File: commentPage.js
@@ -11,18 +10,17 @@ if (window.location.pathname === '/main/commentPage.html') {
     initiateCommentFetch();
 }
 
+// Redirects to comment page based on parameter post ID
 function goToCommentPage(postID) {
-    console.log(postID);
     window.location.href = `/main/commentPage.html?q=${encodeURIComponent(postID)}`;
 }
 
 // Requests info for comment page setup
 async function initiateCommentFetch() {
+
     // collect the params from the url
     const urlParams = new URLSearchParams(window.location.search);
     const paramPostID = urlParams.get('q');
-
-    console.log(paramPostID);
 
     // Helper method call to grab info for post
     const post = await getPost(paramPostID);
@@ -30,6 +28,8 @@ async function initiateCommentFetch() {
     // Helper method call to grab comments associated with post
     const commentArray = await getComments(paramPostID);
 
+    // Generate HTML for a post, the new comment section, and for displaying
+    // existing comments
     generatePostHTML(post);
     generateNewCommentSection(post);
     generateExistingComments(commentArray);
@@ -39,13 +39,12 @@ async function initiateCommentFetch() {
 // Helper function to generate comments HTML
 function generateExistingComments(commentArray) {
     const commentSectionDiv = document.getElementById("existingCommentsSection");
-    // Iterate through results, and generate html.
-    if (commentArray.length == 0) {
-        console.log(commentArray);
+
+    // Iterate through results, and generate html
+    if (commentArray.length == 0)
         commentSectionDiv.innerHTML = "<p> no comments </p>";
-    }
     else {
-        console.log(commentArray);
+        // Dynamically creates HTML for the comments, based off of requested data from server
         commentArray.forEach(comment => {
             const timeStamp = comment.timestamp;
             const dateTime = timeStamp.split('.')[0].replace('T', ' ');
@@ -61,14 +60,16 @@ function generateExistingComments(commentArray) {
             commentSectionDiv.appendChild(newResultDiv);
         });
     }
-
 }
 
-// helper function to generate the section to make new posts.
+// helper function to generate the section to make new posts
 function generateNewCommentSection(post) {
+
+    // Getting DOM elements by ID 
     const newCommentDivContainer = document.getElementById("makeNewCommentSection");
     const newCommentDiv = document.createElement('div');
 
+    // Creates HTML for creating a new comment
     newCommentDiv.innerHTML = `
         <form onsubmit="postNewComment(event, '${post.postId}')">
             <div>
@@ -80,13 +81,15 @@ function generateNewCommentSection(post) {
         </form>
     `;
 
+    // Adds this HTML to the new comment div
     newCommentDivContainer.appendChild(newCommentDiv);
 }
 
-// helper function to generate the post.
+// helper function to generate post
 function generatePostHTML(post) {
-    const postSectionDiv = document.getElementById("postSection");
 
+    // Generates HTML to generate post
+    const postSectionDiv = document.getElementById("postSection");
     const timeStamp = post.timestamp;
     const dateTime = timeStamp.split('.')[0].replace('T', ' ');
     const newResultDiv = document.createElement("div");
@@ -107,6 +110,8 @@ function generatePostHTML(post) {
                 src="./images/dislike.png" /> </button>
             </div>
         `
+
+    // Adds post HTML to post section div
     postSectionDiv.appendChild(newResultDiv);
 }
 

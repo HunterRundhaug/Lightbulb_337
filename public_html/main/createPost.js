@@ -1,4 +1,3 @@
-
 /*
     Authors: Hunter Rundhaug & Theodore Reyes.
     File: createPost.js
@@ -8,28 +7,27 @@
 
 // function for creating a new post.
 async function createAndSendPost(event) {
+    event.preventDefault();     // Stop the form from refreshing the page
 
-    event.preventDefault();
-
+    // Grabs event target and text inside of form textarea
     const formObj = event.target;
     const postOBj = formObj.querySelector('textArea');
 
-    const dataToSend = {
-        content: postOBj.value,
-    }
+    // Creates JSON out of post text content
+    const dataToSend = { content: postOBj.value }
 
-    try { // try send a POST request to make a new post.
+    // Attempts to send a POST request to make new post
+    try {
         const response = await fetch('http://localhost:3000/makeNewPost', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(dataToSend),
+            body: JSON.stringify(dataToSend)
         });
-
         if (response.ok) {
-            alert("New Post Successfully Created!");
-            window.location.href = '/main/index.html';
+            alert("New Post Successfully Created!");        // Generates a success message
+            window.location.href = '/main/index.html';      // Redirects to main page
         } else {
             alert(`Error: ${response.status}`);
         }

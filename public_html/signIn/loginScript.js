@@ -7,13 +7,11 @@
 
 // sends login request.
 function sendLoginRequest(event) {
+    event.preventDefault();     // Avoids refreshing page
 
-    // dont refresh page
-    event.preventDefault(); 
-
-    // Access the form element
+    // Access the form element info
     const form = event.target;
-    const userNameString = form.username.value; 
+    const userNameString = form.username.value;
     const dataToSend = { username: userNameString };
 
     // Send post request with fetch to login...
@@ -26,22 +24,16 @@ function sendLoginRequest(event) {
     })
         .then(response => {
             if (response.ok) {
-                if (response.redirected) {
-                    // Redirect the client to the new page
-                    window.location.href = response.url;
-                }
+                if (response.redirected)
+                    window.location.href = response.url; // Redirects the client to the new page
             }
             // Show alert if username is not found
             else if (response.status === 404) {
                 alert("Username not found.");
-            } else {
+            } else
                 console.error("Unexpected error: ", response.statusText);
-            }
         })
         .catch(error => {
-            // Handle errors...
             console.error('Error:', error);
         });
-
-
 }
