@@ -1,3 +1,12 @@
+/*
+    Authors: Hunter Rundhaug & Theodore Reyes.
+    File: likeDislike.js
+    Purpose: responsible for sending post requests to server when a like/dislike button is
+        clicked. This file is referenced anywhere where there might be a post, and therfore 
+        like/dislike buttons.
+*/
+
+// makes POST request to like a post
 async function likePost(postID, uniqueButtonId) {
     console.log("liked " + postID);
 
@@ -10,7 +19,7 @@ async function likePost(postID, uniqueButtonId) {
         },
         body: JSON.stringify({ postId: postID }),
     });
-    // returns a promise, check for any errors
+
     if (response.ok) {
         label.innerText = await response.json();
     }
@@ -19,6 +28,8 @@ async function likePost(postID, uniqueButtonId) {
     }
 }
 
+
+// makes POST request to dislike a post
 async function dislikePost(postID, uniqueButtonId) {
     console.log("disliked " + postID);
 
@@ -31,7 +42,6 @@ async function dislikePost(postID, uniqueButtonId) {
         },
         body: JSON.stringify({ postId: postID }),
     })
-    // returns a promise, check for any errors
 
     if (response.ok) {
         label.innerText = await response.json();

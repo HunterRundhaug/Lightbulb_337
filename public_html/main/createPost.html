@@ -1,22 +1,30 @@
+<!-- 
+    Authors: Hunter Rundhaug, Theodore Reyes
+    File: createPost.html
+    Purpose: this createPost page is where the user can create and post new posts. In interactes
+    with createPost.js to upload new posts to the server and its database.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>Your Page Title</title>
-    <link rel="stylesheet" href="./createPostStyle.css"> 
+    <link rel="stylesheet" href="./createPostStyle.css">
 </head>
 
 <body>
     <div id="searchSection">
         <a href="./index.html">
             <img id="homeButtonImg" src="./images/homeButton.png" alt="Home Button" />
-          </a>
+        </a>
         <h1>LightBulb</h1>
         <div id="searchBar">
             <form id="userSearchForm">
                 <input type="text" name="query" id="userSearchInput" 
-                placeholder="Search for users" autocomplete="off" required>
+                placeholder="Search for users" autocomplete="off"
+                    required>
             </form>
         </div>
         <p><a id="accountPageLink" href="./account.html">Account</a></p>
@@ -30,19 +38,21 @@
             <form onsubmit="createAndSendPost(event)">
                 <div id="postFormDiv">
                     <label>Create New Post</label>
-                    <textarea id="postContextTextArea" maxlength="240" rows="10" placeholder="content goes here"></textarea>
+                    <textarea id="postContextTextArea" maxlength="240" rows="10"
+                        placeholder="content goes here"></textarea>
                     <div id="postSubmitButtonDiv">
                         <button>Post</button>
                     </div>
                 </div>
             </form>
         </div>
-       
+
     </div>
-    
-    <script  src="./index.js"></script>
-    <script  src="./goToSearch.js"></script>
-    <script  src="./createPost.js"></script>
+
+    <script src="./index.js"></script>
+    <script src="./goToSearch.js"></script>
+    <script src="./createPost.js"></script>
 
 </body>
+
 </html>

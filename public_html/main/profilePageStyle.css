@@ -1,181 +1,186 @@
+/*
+    Authors: Hunter Rundhaug & Theodore Reyes.
+    File: profilePageStyle.css
+    Purpose:  style for profilePage.html. Only responsible for that html file.
+*/
 
-
-body{
+body {
     background-color: rgb(50, 50, 50);
-    padding:0;
-    margin:0;
-    color:white;
-    font-family:Arial, Helvetica, sans-serif;
+    padding: 0;
+    margin: 0;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-h2{
+h2 {
     text-align: center;
 }
 
-#searchSection{
-    margin:0;
+#searchSection {
+    margin: 0;
     padding: 0;
     display: flex;
-    align-items: center; 
-    justify-content: center; 
-    gap: 20px; 
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
     background-color: #4b77f0;
 }
 
-#homeButtonImg{
-    width:30px;
+#homeButtonImg {
+    width: 30px;
 }
 
-#homeButtonImg:hover{
+#homeButtonImg:hover {
     border-bottom: 3px solid rgb(62, 62, 62);
     border-radius: 8px;
 }
 
 
-#postButtonImg{
-    width:28px;
+#postButtonImg {
+    width: 28px;
 }
 
-#postButtonImg:hover{
+#postButtonImg:hover {
     border-bottom: 3px solid rgb(62, 62, 62);
     border-radius: 8px;
 }
 
 
-#searchBar input[type="text"]{
+#searchBar input[type="text"] {
     width: 40vw;
-    padding:5px;
+    padding: 5px;
     border-radius: 20px;
 }
 
 
-#accountPageLink{
+#accountPageLink {
     text-decoration: none;
-    color:white;
+    color: white;
 }
 
-#accountPageLink:hover{
-    color:rgb(62, 62, 62);
+#accountPageLink:hover {
+    color: rgb(62, 62, 62);
 }
 
 
-#helpA{
+#helpA {
     text-decoration: none;
-    color:white;
+    color: white;
 }
 
-#helpA:hover{
-    color:rgb(62, 62, 62);
+#helpA:hover {
+    color: rgb(62, 62, 62);
 }
 
 
-#infoDiv{
-    border-top: 3px solid  rgb(62, 62, 62);
-    border-bottom: 3px solid  rgb(62, 62, 62);
+#infoDiv {
+    border-top: 3px solid rgb(62, 62, 62);
+    border-bottom: 3px solid rgb(62, 62, 62);
     padding: 2%;
 }
 
-#followBtnDiv{
+#followBtnDiv {
     display: flex;
     justify-content: center;
     margin-bottom: 2%;
 }
 
-#followForm{
+#followForm {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-#followButton{
+#followButton {
     color: white;
-    background-color:rgb(62, 62, 62);
+    background-color: rgb(62, 62, 62);
     padding-top: 10px;
     padding-bottom: 10px;
-   
+
     border-radius: 5px;
     margin-bottom: 5px;
     margin-top: 5px;
     transition: width 0.2s;
 }
 
-#followButton:hover:enabled{
+#followButton:hover:enabled {
     width: 20%;
 }
 
-#followButton:active{
+#followButton:active {
     background-color: black;
 }
 
 #followButton:disabled {
     color: white;
-    background-color:rgb(62, 62, 62);
+    background-color: rgb(62, 62, 62);
     padding-top: 10px;
     padding-bottom: 10px;
-   
+
     border-radius: 5px;
     margin-bottom: 5px;
     margin-top: 5px;
 }
 
-#infoTable{
+#infoTable {
     width: 100%;
 }
 
-#infoTable,button{
-    border:none;
+#infoTable,
+button {
+    border: none;
     border-radius: 5px;
     padding-left: 10px;
     padding-right: 10px;
 
 }
 
-#currentDataTable{
+#currentDataTable {
     padding: 5px;
     border: 2px solid rgb(62, 62, 62);
     border-radius: 5px;
 }
 
-.rightSideP{
+.rightSideP {
     padding-left: 100px;
 }
 
-.rightSideP p{
+.rightSideP p {
     padding: 5px;
     border-radius: 3px;
     border: 1px solid black;
 }
 
-.inputGroup{
+.inputGroup {
     margin-top: 15px;
 }
 
-td input{
-    background-color: #ececec; 
+td input {
+    background-color: #ececec;
     border-radius: 5px;
 }
 
-#setBioLabel{
+#setBioLabel {
     position: absolute;
-    margin-top:0px;
+    margin-top: 0px;
 }
 
-textarea{
-    resize:none;
-    background-color: #ececec; 
+textarea {
+    resize: none;
+    background-color: #ececec;
 }
 
-tr{
-    border:0px;
+tr {
+    border: 0px;
 }
 
-#bioTd{
+#bioTd {
     vertical-align: top;
 
 }
 
-#postsTd{
-    top:0;
+#postsTd {
+    top: 0;
     width: 60%;
     padding: 5px;
     border: 2px solid rgb(62, 62, 62);
@@ -188,42 +193,52 @@ tr{
     width: 100%;
     padding: 0px;
     margin: 0px;
+    border:5px solid black;
+    overflow-wrap: break-word;
     overflow-y: auto;
 }
 
-.singlePost{
+.singlePost {
     text-align: center;
-    border:1px solid  rgb(62, 62, 62);
- 
+    border: 1px solid rgb(62, 62, 62);
+    overflow-wrap: break-word;
+    width:auto;
+
+
 }
 
-.postTimeStampP{
+.postContent{
+    width:100px;
+}
+
+.postTimeStampP {
     text-align: center;
     font-size: 12px;
-    color:rgb(149, 255, 0);
+    color: rgb(149, 255, 0);
 }
 
-img.likeDislikeImg{
+img.likeDislikeImg {
     width: 20px;
     height: 20px;
 }
 
-.likeDislikeBtn{
-    background:transparent;
+.likeDislikeBtn {
+    background: transparent;
     border-radius: 10px;
-    border:none;
+    border: none;
 }
-.likeDislikeBtn:hover{
+
+.likeDislikeBtn:hover {
     background-color: black;
 }
 
-.likeDislikeBtn:active{
+.likeDislikeBtn:active {
     background-color: rgb(143, 143, 143);
 }
 
-.commentSectionButton{
+.commentSectionButton {
     color: white;
-    background-color:rgb(62, 62, 62);
+    background-color: rgb(62, 62, 62);
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 5px;
@@ -232,8 +247,8 @@ img.likeDislikeImg{
     transition: padding 0.2s;
 }
 
-.commentSectionButton:hover{
+.commentSectionButton:hover {
     background-color: black;
-   padding-left: 20px;
-   padding-right: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }

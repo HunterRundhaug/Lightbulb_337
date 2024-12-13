@@ -1,4 +1,13 @@
-if(window.location.pathname === '/main/commentPage.html'){
+
+/*
+    Authors: Hunter Rundhaug & Theodore Reyes.
+    File: commentPage.js
+    Purpose: commentPage is responsible for dynamically loading most of the HTML onto
+    a comment page. It makes fetch requests to get the data its needs to generate this HTML.
+*/
+
+// if we are on the comments page call to generate comment HTML.
+if (window.location.pathname === '/main/commentPage.html') {
     initiateCommentFetch();
 }
 
@@ -12,7 +21,7 @@ async function initiateCommentFetch() {
     // collect the params from the url
     const urlParams = new URLSearchParams(window.location.search);
     const paramPostID = urlParams.get('q');
-    
+
     console.log(paramPostID);
 
     // Helper method call to grab info for post
@@ -26,14 +35,16 @@ async function initiateCommentFetch() {
     generateExistingComments(commentArray);
 }
 
-function generateExistingComments(commentArray){
+
+// Helper function to generate comments HTML
+function generateExistingComments(commentArray) {
     const commentSectionDiv = document.getElementById("existingCommentsSection");
     // Iterate through results, and generate html.
-    if(commentArray.length == 0){
+    if (commentArray.length == 0) {
         console.log(commentArray);
         commentSectionDiv.innerHTML = "<p> no comments </p>";
     }
-    else{
+    else {
         console.log(commentArray);
         commentArray.forEach(comment => {
             const timeStamp = comment.timestamp;
@@ -41,7 +52,9 @@ function generateExistingComments(commentArray){
             const newResultDiv = document.createElement("div");
             newResultDiv.className = "singleComment";
             newResultDiv.innerHTML = `
-                <button class="commentAuthorButton" onclick="goToProfile('${comment.associatedUser}')"> ${comment.associatedUser} commented</button>
+                <button class="commentAuthorButton" 
+                onclick="goToProfile('${comment.associatedUser}')"> ${comment.associatedUser} 
+                commented</button>
                 <p id="postTimeStamp">${dateTime}</p>
                 <p class="commentContents">${comment.content}</p>
             `
@@ -51,10 +64,11 @@ function generateExistingComments(commentArray){
 
 }
 
-function generateNewCommentSection(post){
+// helper function to generate the section to make new posts.
+function generateNewCommentSection(post) {
     const newCommentDivContainer = document.getElementById("makeNewCommentSection");
     const newCommentDiv = document.createElement('div');
-    
+
     newCommentDiv.innerHTML = `
         <form onsubmit="postNewComment(event, '${post.postId}')">
             <div>
@@ -67,9 +81,10 @@ function generateNewCommentSection(post){
     `;
 
     newCommentDivContainer.appendChild(newCommentDiv);
-}   
+}
 
-function generatePostHTML(post){
+// helper function to generate the post.
+function generatePostHTML(post) {
     const postSectionDiv = document.getElementById("postSection");
 
     const timeStamp = post.timestamp;
@@ -77,14 +92,19 @@ function generatePostHTML(post){
     const newResultDiv = document.createElement("div");
     newResultDiv.className = "postInContentSection";
     newResultDiv.innerHTML = `
-            <button onclick="goToProfile('${post.username}')" class="userNameInPost">${post.username} Posted</button>
+            <button onclick="goToProfile('${post.username}')" 
+            class="userNameInPost">${post.username} Posted</button>
             <p class="postTimeStampP">${dateTime}</p>
             <p class="contentInPost">${post.content}</p>
             <div class="likeDislikeBox">
                 <label id="likeBtn${post.postId}">${post.likes}</label>
-                <button onclick="likePost('${post.postId}', 'likeBtn${post.postId}')" type="checkbox" class="likeDislikeBtn"> <img class="likeDislikeImg" src="./images/like.png" /></button>
+                <button onclick="likePost('${post.postId}', 'likeBtn${post.postId}')" 
+                type="checkbox" class="likeDislikeBtn"> <img class="likeDislikeImg" 
+                src="./images/like.png" /></button>
                 <label id="dislikeBtn${post.postId}" >${post.dislikes}</label>
-                <button onclick="dislikePost('${post.postId}', 'dislikeBtn${post.postId}')" type="checkbox" class="likeDislikeBtn"> <img class="likeDislikeImg" src="./images/dislike.png" /> </button>
+                <button onclick="dislikePost('${post.postId}', 'dislikeBtn${post.postId}')" 
+                type="checkbox" class="likeDislikeBtn"> <img class="likeDislikeImg" 
+                src="./images/dislike.png" /> </button>
             </div>
         `
     postSectionDiv.appendChild(newResultDiv);
@@ -98,7 +118,7 @@ async function getPost(paramPostID) {
     if (response.ok) {
         const post = await response.json();
         return post;
-    } 
+    }
     else {
         alert(response.status);
     }
@@ -106,13 +126,14 @@ async function getPost(paramPostID) {
 
 // Helper method for getting comments associated with post ID
 async function getComments(paramPostID) {
-    const response = await fetch(`http://localhost:3000/getCommentsAssociatedWithPostID/${paramPostID}`, {
+    const response = 
+    await fetch(`http://localhost:3000/getCommentsAssociatedWithPostID/${paramPostID}`, {
         method: 'GET'
     });
     if (response.ok) {
         const commentArray = await response.json();
         return commentArray;
-    } 
+    }
     else {
         alert(response.status);
     }

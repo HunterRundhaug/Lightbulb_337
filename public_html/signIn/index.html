@@ -1,38 +1,50 @@
+<!-- 
+    Authors: Hunter Rundhaug, Theodore Reyes
+    File: index.html
+    Purpose: this is the main login page for the website. Users can sign in
+        goTo sign up page.
+-->
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./style.css"> 
+    <link rel="stylesheet" href="./style.css">
     <title>Login</title>
 </head>
 
 <body>
     <h1>Lightbulb</h1>
     <div id="mainWrapper">
-            <div id="boxWrapper">
-                <h2>Login</h2>
-                <form onsubmit="sendLoginRequest(event)">
-                    <div class="formDiv">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" name="username" placeholder="Enter your username" required>
-                    </div>
-                    <p id="warning">Please note, no password is required as this platform is <span id="notEncryptedText">not encrypted!</span></p>
-                    <div id="submitButtonDiv">
-                        <button type="submit">Login</button>
-                    </div>
-                    <div id="signUpDiv">
-                        <p>not a member? <a href="signUp.html" id="signupButton">Sign Up</a></p>
-                    </div>
-                    <div>
-                        <a id="helpPageA" href="./helpPage.html" >Help page</a>
-                    </div>
-                </form>
-            </div>
+        <div id="boxWrapper">
+            <h2>Login</h2>
+            <form onsubmit="sendLoginRequest(event)">
+                <div class="formDiv">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" 
+                    placeholder="Enter your username" required>
+                </div>
+                <p id="warning">Please note, no password is required as this platform is 
+                    <span id="notEncryptedText">not
+                        encrypted!</span></p>
+                <div id="submitButtonDiv">
+                    <button type="submit">Login</button>
+                </div>
+                <div id="signUpDiv">
+                    <p>not a member? <a href="signUp.html" id="signupButton">Sign Up</a></p>
+                </div>
+                <div>
+                    <a id="helpPageA" href="./helpPage.html">Help page</a>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="./loginScript.js"></script>
 
 </body>
+
 </html>

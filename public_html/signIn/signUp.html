@@ -1,43 +1,56 @@
+<!-- 
+    Authors: Hunter Rundhaug, Theodore Reyes
+    File: signUp.html
+    Purpose: this is where the client can sign up for the website. Once the user signs
+        up they can go back to the login page to get into the main part of the platform.
+-->
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./signUpStyle.css"> 
+    <link rel="stylesheet" href="./signUpStyle.css">
     <title>Sign Up</title>
 </head>
 
 <body>
     <h1>Lightbulb</h1>
     <div id="mainWrapper">
-            <div id="boxWrapper">
-                <h2>Sign Up!</h2>
-                <form onsubmit="requestSignUp(event)">
-                    <div class="formDiv">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" name="username" placeholder="Enter your username" required>
-                    </div>
-                    <div class="formDiv">
-                        <label for="displayName">Display Name</label>
-                        <input type="text" id="displayName" name="displayname" placeholder="Enter your display name" required>
-                    </div>
-                    <br><br>
-                    <p id="warning">Please note, no password is required as this platform is not yet encrypted!</p>
-                    <div id="submitButtonDiv">
-                        <button type="submit">Create Account</button>
-                    </div>
-                    <div id="backToLoginDiv">
-                        <p>back to <a href="index.html" id="signupButton">login</a></p>
-                    </div>
-                    <div>
-                        <a id="helpPageA" href="./helpPage.html" >Help page</a>
-                    </div>
-                </form>
-            </div>
+        <div id="boxWrapper">
+            <h2>Sign Up!</h2>
+            <form onsubmit="requestSignUp(event)">
+                <div class="formDiv">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" 
+                    placeholder="Enter your username" required>
+                </div>
+                <div class="formDiv">
+                    <label for="displayName">Display Name</label>
+                    <input type="text" id="displayName" name="displayname" 
+                    placeholder="Enter your display name"
+                        required>
+                </div>
+                <br><br>
+                <p id="warning">Please note, no password is required as this 
+                    platform is not yet encrypted!</p>
+                <div id="submitButtonDiv">
+                    <button type="submit">Create Account</button>
+                </div>
+                <div id="backToLoginDiv">
+                    <p>back to <a href="index.html" id="signupButton">login</a></p>
+                </div>
+                <div>
+                    <a id="helpPageA" href="./helpPage.html">Help page</a>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="./signUp.js"></script>
 
 </body>
+
 </html>

@@ -1,6 +1,12 @@
-const searchResultArea = document.getElementById("searchResults");
+/*
+    Authors: Hunter Rundhaug & Theodore Reyes.
+    File: goToSearch.js
+    Purpose: responsible for directing client to the search results page and 
+    initiates the acutal fetch to the server to get and display the search results.
+*/
 
-// Redirects client to search page with input search...
+// where the searched users html will go
+const searchResultArea = document.getElementById("searchResults");
 
 // Subscribe event Listener to (submit) action on the form object.
 document.getElementById("userSearchForm").addEventListener('submit', (event) => {
@@ -15,12 +21,12 @@ document.getElementById("userSearchForm").addEventListener('submit', (event) => 
 });
 
 // if we are located at the search page, call the initiateSearch function
-if(window.location.pathname === '/main/search.html'){
+if (window.location.pathname === '/main/search.html') {
     initiateSearch();
 }
 
-// Send search request and process the response...
-async function initiateSearch(){
+// initiates search for user accounts
+async function initiateSearch() {
     // collect the params from the url
     const urlParams = new URLSearchParams(window.location.search);
     const searchQuery = urlParams.get('q');
@@ -28,7 +34,7 @@ async function initiateSearch(){
     // let them know what they searced for.
     const whatSearched = document.getElementById("whatWasSearched");
     whatSearched.innerText = searchQuery;
-    
+
     dataToSend = {
         query: searchQuery,
     }
@@ -41,53 +47,47 @@ async function initiateSearch(){
         },
         body: JSON.stringify(dataToSend),
     })
-    // returns a promise, check for any errors
-    .then(async response => {
-        if(response.ok){
-            // where we catch the response
-            const results = await response.json();
-            // Append new html to searchResults...
-            generateHTML(results);
-        }
-         else {
-            alert(response.status);
-        }
-    })
-    .catch(error => {
-        // Handle errors from the fetch call
-        console.error('Error:', error);
-    });
+        .then(async response => {
+            if (response.ok) {
+                const results = await response.json();
+                generateHTML(results);
+            }
+            else {
+                alert(response.status);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
-function generateHTML(results){
-     // Iterate through results, and generate html.
-     results.forEach( result => {
+function generateHTML(results) {
+    // Iterate through results, and generate html.
+    results.forEach(result => {
         const newResultDiv = document.createElement("div");
         newResultDiv.className = "resultDiv";
 
-
+        // determine if the button should be there, and its label.
         let buttonName;
-       
         buttonName = result.isFollowing ? "unfollow" : "follow";
-
         let buttonHTML = `
         <button id="followButton" type="submit">${buttonName}</button>
         `;
-
-        if(result.isMe){
+        if (result.isMe) {
             buttonHTML = "";
         }
 
+        // Generate the HTML
         newResultDiv.innerHTML = `
-        <form onsubmit="postFollowRequest(event, '${result.userName}', ${result.isMe}), ${result.isFollowing} ">
-        <button type="button" onclick="goToProfile('${result.userName}')" id="userNameResult">${result.userName}</button>
+        <form onsubmit="postFollowRequest(event, '${result.userName}', 
+        ${result.isMe}), ${result.isFollowing} ">
+        <button type="button" onclick="goToProfile('${result.userName}')" 
+        id="userNameResult">${result.userName}</button>
         <p id="dispNameResult">${result.dispName}</p>
         <p id="statusResult">${result.status}</p>
         ${buttonHTML}
         </form>
         `
         searchResultArea.appendChild(newResultDiv);
-
-
     });
 }

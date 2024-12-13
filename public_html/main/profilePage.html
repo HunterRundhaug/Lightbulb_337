@@ -1,17 +1,26 @@
+<!-- 
+    Authors: Hunter Rundhaug, Theodore Reyes
+    File: profilePage.html
+    Purpose: page for displaying the contents of a users profile. Uses javaScript
+        to dynamically display the info of the specific user clicked on.
+-->
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>Your Page Title</title>
-    <link rel="stylesheet" href="./profilePageStyle.css"> 
+    <link rel="stylesheet" href="./profilePageStyle.css">
 </head>
 
 <body>
     <div id="searchSection">
         <a href="./index.html">
             <img id="homeButtonImg" src="./images/homeButton.png" alt="Home Button" />
-          </a>
+        </a>
         <a href="./createPost.html">
             <img id="postButtonImg" src="./images/postIcon.png" alt="Post Button">
         </a>
@@ -19,7 +28,8 @@
         <div id="searchBar">
             <form id="userSearchForm">
                 <input type="text" name="query" id="userSearchInput" 
-                placeholder="Search for users" autocomplete="off" required>
+                placeholder="Search for users" autocomplete="off"
+                    required>
             </form>
         </div>
         <p><a id="accountPageLink" href="./account.html">Account</a></p>
@@ -39,8 +49,8 @@
                                 <td>
                                     <p>Username </p>
                                 </td>
-                                <td class="rightSideP"> 
-                                    <p id="usernameText">YourUserName</p> 
+                                <td class="rightSideP">
+                                    <p id="usernameText">YourUserName</p>
                                 </td>
                             </tr>
                             <tr>
@@ -70,14 +80,14 @@
                         </table>
                     </td>
                     <td id="postsTd">
-                       <div id="postWrapperDiv">
-        
-                       </div>
+                        <div id="postWrapperDiv">
+
+                        </div>
                     </td>
                 </tr>
             </table>
         </div>
-    
+
     </div>
 
     <script src="./index.js"></script>
@@ -90,4 +100,5 @@
     <script src="./commentPage.js"></script>
 
 </body>
+
 </html>

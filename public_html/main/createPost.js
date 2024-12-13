@@ -1,7 +1,13 @@
 
+/*
+    Authors: Hunter Rundhaug & Theodore Reyes.
+    File: createPost.js
+    Purpose: createPost.js creates a new post for the user. It is reference from createPost.html.
+        Using fetch POST requests.
+*/
 
-
-async function createAndSendPost(event){
+// function for creating a new post.
+async function createAndSendPost(event) {
 
     event.preventDefault();
 
@@ -12,7 +18,7 @@ async function createAndSendPost(event){
         content: postOBj.value,
     }
 
-    try {
+    try { // try send a POST request to make a new post.
         const response = await fetch('http://localhost:3000/makeNewPost', {
             method: 'POST',
             headers: {

@@ -3,8 +3,6 @@
     File: account.html
     Purpose: html for diplaying the contents of the account page. 
         displaying a logged in users account details.
-
-
 -->
 
 
@@ -14,25 +12,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Your Page Title</title>
-    <link rel="stylesheet" href="./accountStyle.css"> 
+    <link rel="stylesheet" href="./accountStyle.css">
 </head>
 
 <body>
     <div id="searchSection">
         <a href="./index.html">
             <img id="homeButtonImg" src="./images/homeButton.png" alt="Home Button" />
-          </a>
-          <a href="./createPost.html">
+        </a>
+        <a href="./createPost.html">
             <img id="postButtonImg" src="./images/postIcon.png" alt="Post Button">
         </a>
         <h1>LightBulb</h1>
         <div id="searchBar">
             <form id="userSearchForm">
                 <input type="text" name="query" id="userSearchInput" 
-                placeholder="Search for users" autocomplete="off" required>
+                placeholder="Search for users" autocomplete="off"
+                    required>
             </form>
         </div>
-        <p><a id="signOutButton" onclick="signOutUser()" >Signout</a></p>
+        <p><a id="signOutButton" onclick="signOutUser()">Signout</a></p>
         <a id="helpA" href="./helpPage.html">Help</a>
     </div>
 
@@ -48,8 +47,8 @@
                                 <td>
                                     <p>Username </p>
                                 </td>
-                                <td class="rightSideP"> 
-                                    <p id="usernameText">YourUserName</p> 
+                                <td class="rightSideP">
+                                    <p id="usernameText">YourUserName</p>
                                 </td>
                             </tr>
                             <tr>
@@ -84,38 +83,41 @@
                         </div>
                         <form onsubmit="updateUserInfo(event)">
                             <table>
-                                <tr> 
+                                <tr>
                                     <td>
                                         <label for="setDisplayNameForm">Display name:</label>
                                     </td>
                                     <td>
-                                        <input type="text" id="setDisplayNameForm" name="displayNameForm">
+                                        <input type="text" id="setDisplayNameForm" 
+                                        name="displayNameForm">
                                     </td>
                                 </tr>
-                                <tr> 
+                                <tr>
                                     <td>
                                         <label for="statusForm">Status:</label>
                                     </td>
                                     <td>
-                                        <input type="text" id="statusForm" name="status" placeholder="active">
+                                        <input type="text" id="statusForm" name="status" 
+                                        placeholder="active">
                                     </td>
                                 </tr>
-                                <tr> 
+                                <tr>
                                     <td id="bioTd">
                                         <label id="setBioLabel" for="setBioFrom">Bio:</label>
                                     </td>
                                     <td>
-                                        <textarea id="setBioFrom" cols="40" rows="3" name="displayNameForm"></textarea>
+                                        <textarea id="setBioFrom" cols="40" rows="3" 
+                                        name="displayNameForm"></textarea>
                                     </td>
                                 </tr>
-                                <tr> 
+                                <tr>
                                     <td></td>
                                     <td> <button>Submit</button></td>
                                 </tr>
                                 <tr> </tr>
                             </table>
                         </form>
-                    
+
                     </td>
                 </tr>
                 <tr>
@@ -127,14 +129,15 @@
                 </tr>
             </table>
         </div>
-    
+
     </div>
 
-    <script  src="./account.js"></script>
-    <script  src="./signOut.js"></script>
-    <script  src="./goToSearch.js"></script>
-    <script  src="./goToProfile.js"></script>
-    
+    <script src="./account.js"></script>
+    <script src="./signOut.js"></script>
+    <script src="./goToSearch.js"></script>
+    <script src="./goToProfile.js"></script>
+
 
 </body>
+
 </html>

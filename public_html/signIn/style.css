@@ -1,88 +1,100 @@
-body{
-    font-family:Arial, Helvetica, sans-serif;
-    background: linear-gradient(to bottom, #4b77f0, #a9b6db); 
-    height: 100vh; 
+/*
+    Authors: Hunter Rundhaug & Theodore Reyes.
+    File: style.css
+    Purpose:  used to style index.html
+        Which in this case is the login page.
+*/
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(to bottom, #4b77f0, #a9b6db);
+    height: 100vh;
     margin: 0;
 }
 
-h1{
+h1 {
     padding-left: 5%;
     color: white;
 }
 
-#mainWrapper{
+#mainWrapper {
     display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items: center;
 }
 
-#boxWrapper{
+#boxWrapper {
     border-radius: 2px;
     width: 50%;
-    height:auto;
+    height: auto;
     background-color: white;
 }
 
-h2{
+h2 {
     text-align: center;
     color: rgb(85, 85, 85);
 }
 
-label{
+label {
     margin-left: 5px;
     color: rgb(85, 85, 85);
     font-weight: bold;
     padding-bottom: 5px;
 }
 
-input{
+input {
     border-radius: 20px;
-    border:none;
-    background-color: #ececec; 
+    border: none;
+    background-color: #ececec;
     padding: 5px;
 }
 
 input:focus {
     background-color: #e6e6e6;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); 
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
 
-.formDiv{
+.formDiv {
     display: flex;
     flex-direction: column;
     padding-bottom: 3%;
 }
 
-form{
+form {
     padding: 5%;
 }
 
-#warning{
+#warning {
     font-size: smaller;
 }
 
-#submitButtonDiv{
+#submitButtonDiv {
     display: flex;
     justify-content: center;
 }
 
 
 @keyframes btnPaddingAnim {
-    0% { padding: 5px;
+    0% {
+        padding: 5px;
         padding-left: 20px;
-        padding-right: 20px; }
+        padding-right: 20px;
+    }
 
-    100% { padding: 8px;
+    100% {
+        padding: 8px;
         padding-left: 25px;
-        padding-right: 25px; }
-  }
+        padding-right: 25px;
+    }
+}
 
-button{
+button {
     position: absolute;
     padding: 5px;
     padding-left: 20px;
     padding-right: 20px;
-    border:none;
+    border: none;
     border-radius: 15px;
     font-size: large;
     background-color: rgb(240, 106, 106);
@@ -90,30 +102,30 @@ button{
 }
 
 
-button:hover{
+button:hover {
     background-color: coral;
     animation: btnPaddingAnim .2s forwards;
 }
 
-button:active{
+button:active {
     background-color: rgb(212, 72, 21);
 }
 
-#signUpDiv{
-    margin-top:20%;
+#signUpDiv {
+    margin-top: 20%;
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
-#signupButton{
+#signupButton {
     text-decoration: none;
     margin: 0;
     padding: 0;
     font-weight: bold;
 }
 
-#helpPageA{
+#helpPageA {
     text-decoration: none;
     margin: 0;
     padding: 0;

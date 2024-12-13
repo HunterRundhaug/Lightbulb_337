@@ -1,17 +1,24 @@
+<!-- 
+    Authors: Hunter Rundhaug, Theodore Reyes
+    File: commentPage.html
+    Purpose: html for diplaying a post and the comments on that post. Lets the user
+    interact with comments on the post and create new comments.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <title>Your Page Title</title>
-    <link rel="stylesheet" href="./commentPageStyle.css"> 
+    <link rel="stylesheet" href="./commentPageStyle.css">
 </head>
 
 <body>
     <div id="searchSection">
         <a href="./index.html">
             <img id="homeButtonImg" src="./images/homeButton.png" alt="Home Button" />
-          </a>
+        </a>
         <a href="./createPost.html">
             <img id="postButtonImg" src="./images/postIcon.png" alt="Post Button">
         </a>
@@ -19,7 +26,8 @@
         <div id="searchBar">
             <form id="userSearchForm">
                 <input type="text" name="query" id="userSearchInput" 
-                placeholder="Search for users" autocomplete="off" required>
+                placeholder="Search for users" autocomplete="off"
+                    required>
             </form>
         </div>
         <p><a id="accountPageLink" href="./account.html">Account</a></p>
@@ -36,7 +44,7 @@
         <div id="postSection">
 
         </div>
-        
+
         <div id="makeNewCommentSection">
             <p>Post new Comment</p>
         </div>
@@ -47,7 +55,7 @@
         </div>
 
     </div>
-    
+
     <script src="./index.js"></script>
     <script src="./goToSearch.js"></script>
     <script src="./goToProfile.js"></script>
@@ -56,4 +64,5 @@
     <script src="./postComment.js"></script>
 
 </body>
+
 </html>
