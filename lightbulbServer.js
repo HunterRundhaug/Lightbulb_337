@@ -1,6 +1,10 @@
-// Hunter Rundhaug - Theodore Reyes
-//
-// Base js node file for final project
+/**
+ *  Authors: Theodore Reyes, Hunter Rundhaug
+ *  File: lightbulbServer.js
+ *  Purpose: This file is the main node web server that serves the lightbulb website. This
+ *           file defines routes for GET/POST data, communicates with a mongodb database, and
+ *           defines Schema for documents for said database server.
+ */
 
 // Import statements
 const express = require('express');
@@ -22,6 +26,7 @@ app.use(express.static("public_html/signIn/"));
 app.use('/main', express.static(path.join(__dirname, 'public_html', 'main')));
 app.use('/loginPage', express.static(path.join(__dirname, 'public_html', 'signIn')));
 
+// session middleware is used to manage user sessions
 app.use(
     session({
         secret: '12345',
@@ -29,7 +34,7 @@ app.use(
         saveUninitialized: false,
         store: mongoConnectStore.create({
             mongoUrl: 'mongodb://127.0.0.1/lightbulbDB',
-            collectionName: 'Sessions', // collection name
+            collectionName: 'Sessions',
         }),
         cookie: { secure: false },
     })
@@ -45,31 +50,23 @@ function isAuthenticated(req) {
     }
 }
 
-// ROUTES
+// ********** ROUTES 
 
-// Get list of user accounts from search
+// Route for handling search for users
 app.post('/searchForUsers', async (req, res) => {
-
-
     try {
-        // Make sure a user is signed in.
-        if (!isAuthenticated(req)) {
+        if (!isAuthenticated(req))      // Verifies that the user is signed in
             return res.status(403).send("not signed in");
-        }
+        const query = req.body.query;   // Gets the search query
 
-        const query = req.body.query;
-
+        // Queries the database for users matching the search query & creates array for followlist
         const accounts = await User.find({ dispName: new RegExp(query, 'i') }).limit(10);
-
         const clientDocument = await User.findOne({ userName: req.session.username });
-
-
-
         let clientFollowList = [];
-        if (clientDocument) {
+        if (clientDocument)
             clientFollowList = clientDocument.followList;
-        }
 
+        // Assembles JSON of result
         let usersPackaged = accounts.map(account => {
             const isFollowed = clientFollowList.includes(account.userName);
             const isClientsAccount = req.session.username === account.userName;
@@ -81,34 +78,34 @@ app.post('/searchForUsers', async (req, res) => {
                 status: account.status,
             }
         });
-
-
-
-        res.json(usersPackaged);
-
-    }
-    catch (error) {
+        res.json(usersPackaged);    // Sends response to user
+    } catch (error) {
         console.log(error);
-        res.status(500).send("internal server malfunction");
+        res.status(500).send("Internal server error handling search request");
     }
-
 });
 
 // Get current user Route from session data
-// Used for retrieving the currently signed in user on the main page.
+// Used for retrieving the currently signed in user on the main page
 app.get('/getCurrentUser', async (req, res) => {
+
+    // If user session exists, gets current user info
     if (req.session.username) {
         try {
             const username = req.session.username;
-            const currentUser = await User.findOne({ userName: username }); // get the current user document
+
+            // get the current user document
+            const currentUser = await User.findOne({ userName: username });
+
             if (currentUser) {
+                // Send the users info back to client
                 res.json({
                     dispName: currentUser.dispName,
-                    userName: currentUser.userName,           // < -- used as unique ID within database
+                    userName: currentUser.userName,
                     followList: currentUser.followList,
                     bio: currentUser.bio,
                     status: currentUser.status
-                }); // Send the users display Name Back
+                });
             }
             else {
                 res.status(404).json({ message: 'User not found' });
@@ -123,49 +120,59 @@ app.get('/getCurrentUser', async (req, res) => {
     }
 });
 
-// Login Route
+// Route for logging in a user
 app.post('/login', async (req, res) => {
-    const username = req.body.username; // Extract username from the request
-    console.log("Username received:", username);
+
+    // Gets username from request
+    const username = req.body.username;
 
     try {
-        const user = await User.findOne({ userName: username }); // Query database
+        // Queries database for user
+        const user = await User.findOne({ userName: username });
 
+        // If user exists, logs the user in
         if (user) {
             req.session.username = username; // Save username in the session
             console.log("User authenticated. Redirecting to /main...");
             res.redirect('/main'); // Redirect to main page Route
-        } else {
-            res.status(404).send('User not found');
         }
-    } catch (err) {
-        console.error('Error querying the database:', err);
-        res.status(500).send('Internal server error');
+        else {
+            res.status(404).send('User not found'); // If no user found, sends 404
+        }
+    }
+    catch (error) {
+        res.status(500).send('Internal server error logging in');
     }
 });
 
-// Main Page Route
+// Route for directing user to main page
 app.get('/main', (req, res) => {
+
+    // If user session is active (i.e they are logged in), then the user is routed to home page
     if (req.session.username) {
         // User is has a valid session, serve main page
         res.sendFile(path.join(__dirname, 'public_html', 'main'));
-    } else {
-        // User not authenticated, redirect to login page
-        res.redirect(''); //to be determined.
+    }
+    else {
+        // User not authenticated, sends 403
+        res.status(403).send("Session not authorized");
     }
 });
 
-// Logout Route
+// Route for logging out user
 app.post('/logout', (req, res) => {
+
+    // If user session is active (i.e they are logged in), then the user is logged out
     if (req.session.username) {
-        // if the user has a valid session
+
+        // Session.destroy is used to end the session
         req.session.destroy(error => {
             if (error) {
                 console.error("Error destroying session:", error);
                 res.status(500).send('Internal server error');
                 console.log("logoutError");
             } else {
-                res.redirect('/loginPage'); // Redirect to login or home page
+                res.redirect('/loginPage'); // Redirects user to login or home page
             }
         });
     }
@@ -174,14 +181,15 @@ app.post('/logout', (req, res) => {
     }
 });
 
+// Route for directing user to login page
 app.get('/loginPage', (req, res) => {
     res.sendFile(path.join(__dirname, 'public_html', 'signIn'));
 });
 
 // Route for adding new user to database
-// TODO: change back to post once ready for testing
 app.post('/makeNewUser', async (req, res) => {
 
+    // Gets username & displayname from request body
     const inputUserName = req.body.username;
     const inputDisplayName = req.body.displayName;
 
@@ -192,8 +200,8 @@ app.post('/makeNewUser', async (req, res) => {
         if (userAlreadyExists) {
             res.status(409).send("User name taken");
         } else {
-            let newUser = new User({
-                userName: inputUserName,
+            let newUser = new User({        // Creates new user with default values,
+                userName: inputUserName,    // and client supplied user & display name
                 dispName: inputDisplayName,
                 followList: [],
                 bio: "",
@@ -206,38 +214,30 @@ app.post('/makeNewUser', async (req, res) => {
         console.error('Error querying the database:', err);
         res.status(500).send('Internal server error');
     }
-
 });
 
 // Route for creating a new post
 app.post("/makeNewPost", async (req, res) => {
-
     try {
-        // If not auth then return and dont make new post.
+        // If not authorized, returns and doesnt make new post
         if (!isAuthenticated(req)) {
             res.status(403).send("not logged in");
-            return
+            return;
         }
 
-        // Finds db ID of the user who created the post
-        let userID = await User.findOne({ userName: req.session.username });
-
+        // Finds db ID of the user who created the post, and 
         const numberOfPost = await Post.countDocuments();
         postid = numberOfPost + 1;
-
         const inputContent = req.body.content;
+
         // Creates new post in database
         let newPost = new Post({
-            authorUser: req.session.username,
-            content: inputContent,
-            thumbsUpCount: 0,
-            thumbsDownCount: 0,
-            timestamp: Date.now(),
-            postId: postid
+            authorUser: req.session.username, content: inputContent,
+            thumbsUpCount: 0, thumbsDownCount: 0,
+            timestamp: Date.now(), postId: postid
         });
-        await newPost.save();
-        res.send("Post added successfully");
-
+        await newPost.save();                   // Updates DB
+        res.send("Post added successfully");    // Sends user a success message
     }
     catch (error) {
         console.log("error making new post " + error);
@@ -248,12 +248,13 @@ app.post("/makeNewPost", async (req, res) => {
 // Route for updating user info for existing user
 app.post("/updateUserInfo", async (req, res) => {
 
+    // Gets updated user info from request
     const inputStatus = req.body.status;
     const inputDispName = req.body.dispname;
     const inputBio = req.body.bio;
 
     try {
-        // Checks if session is valid
+        // Updates info if session is valid
         if (req.session.username) {
             await User.updateOne(
                 { userName: req.session.username },
@@ -266,66 +267,58 @@ app.post("/updateUserInfo", async (req, res) => {
                 }
             );
             res.send("Successfully updated profile!");
-        } else { // If no session found
+        } else { // If no session found, returns error
             res.status(404).send("Not signed in");
         }
-
-
     } catch (err) {
-        console.error('Error querying the database:', err);
         res.status(500).send('Internal server error');
     }
-
-
 });
 
-// Route for getting a user's info, EX for populating a page with basic info on target user
+// Route for getting a user's info, for example populating a page with basic info on req user
 app.get('/getRequestedUsersInfo/:user', async (req, res) => {
+    try {
+        // Checks if user is authenticated, returns if not
+        if (!isAuthenticated(req))
+            return;
 
-    if (!isAuthenticated(req)) {
-        return;
+        // Finds requested user in DB
+        const targetUserInfo = await User.findOne({ userName: req.params.user });
+        if (!targetUserInfo) {
+            res.status(500).send("invalid User");
+            return;
+        }
+        // Finds user in DB and retrieves some necessary information from this document
+        const clientDocument = await User.findOne({ userName: req.session.username });
+        const clientFollowing = clientDocument.followList;
+        const isMe = targetUserInfo.userName === req.session.username;
+        const isFollowing = clientFollowing.includes(targetUserInfo.userName);
+
+        // Makes JSON with only the necessary info from user
+        const targetUserInfoJSON = {
+            dispName: targetUserInfo.dispName, userName: targetUserInfo.userName,
+            bio: targetUserInfo.bio, status: targetUserInfo.status,
+            numFollowing: targetUserInfo.followList.length, isMe: isMe, isFollowing: isFollowing
+        };
+
+        // Sends JSON of user info back to client
+        res.send(targetUserInfoJSON);
+    } catch (error) {
+        res.status(500).send('Internal server error getting user info');
     }
-
-    // Finds requested user in DB
-    const targetUserInfo = await User.findOne({ userName: req.params.user });
-    if(!targetUserInfo){
-        res.status(500).send("invalid User");
-        return;
-    }
-    const clientDocument = await User.findOne({userName: req.session.username});
-    const clientFollowing = clientDocument.followList;
-    const isMe = targetUserInfo.userName === req.session.username;
-    const isFollowing = clientFollowing.includes(targetUserInfo.userName);
-
-    // Makes JSON with only the necessary info from user
-    const targetUserInfoJSON = {
-        dispName: targetUserInfo.dispName,
-        userName: targetUserInfo.userName,
-        bio: targetUserInfo.bio,
-        status: targetUserInfo.status,
-        numFollowing: targetUserInfo.followList.length,  // Stores # of users in follow lists
-        isMe: isMe,
-        isFollowing: isFollowing,
-    };
-
-    // Sends JSON of user info back to client
-    res.send(targetUserInfoJSON);
 });
 
 // Route for adding someone to a follow list
 app.post('/toggleFollowUser', async (req, res) => {
-    if (!isAuthenticated(req)) {
+    // Checks to ensure if user is authenticated, returns if not
+    if (!isAuthenticated(req))
         return;
-    }
 
     // String of user to either add or remove
     const userToToggle = req.body.userToToggle;
 
     const username = req.session.username; // Gets current sessions username
     const currentUser = await User.findOne({ userName: username }); // Accesses their DB User doc
-
-    console.log("User who made request to follow/unfollow: " + currentUser.userName);
-    console.log("User to follow/unfollow: " + userToToggle);
 
     // Removes user if present
     if (currentUser.followList.includes(userToToggle)) {
@@ -338,65 +331,59 @@ app.post('/toggleFollowUser', async (req, res) => {
     res.send("Handled request successfully");
 })
 
-// get Route for getting main feed...
+// Route for getting main feed...
 app.get("/getFeed", async (req, res) => {
     try {
         if (!isAuthenticated(req)) {
             res.status(403).send("not Signed in");
             return;
         }
+        // Gets user document from DB, and if doesn't find, sends error
         const userDocument = await User.findOne({ userName: req.session.username });
-        
-        if (!userDocument) { // quick check for null value
-            return res.status(500).send("current user not found!");
+        if (!userDocument) { // Checks for null value
+            return res.status(404).send("current user not found");
         }
-        const followingList = userDocument.followList;
-
-        const postList = await Post.find({ authorUser:  {$in: followingList} })
-        .sort({ timestamp: -1 });
         
+        // Queries for all posts authored by users this user is following
+        const followingList = userDocument.followList;
+        const postList = await Post.find({ authorUser: { $in: followingList } })
+            .sort({ timestamp: -1 });
+
+        // Creates JSON of posts for feed, and sends back to client
         let postsPackaged = postList.map(post => {
             return {
-                username: post.authorUser,
-                content: post.content,
-                likes: post.thumbsUpCount,
-                dislikes: post.thumbsDownCount,
-                timestamp: post.timestamp,
-                postId: post.postId,
+                username: post.authorUser, content: post.content, likes: post.thumbsUpCount,
+                dislikes: post.thumbsDownCount, timestamp: post.timestamp, postId: post.postId,
             }
         });
         res.json(postsPackaged);
-
     }
     catch (error) {
-        console.log("Error getting main feed: " + error);
         res.status(500).send("Internal Server Error");
     }
 });
 
-// get Route for getting a single users Posts...
+// Route for getting a single users Posts...
 app.get("/getUserPosts/:username", async (req, res) => {
     try {
+        // Checks if user is authenticated, returns if not
         if (!isAuthenticated(req)) {
             res.status(403).send("not signed in, cant see posts...");
             return;
         }
+
+        // Gets user info from request and queries the DB for posts from this user
         const usernameToQuery = req.params.username;
         const profilePostDocuments = await Post.find({ authorUser: usernameToQuery });
 
+        // Creates JSON of posts authored by user, and sends to client
         let postsPackaged = profilePostDocuments.map(post => {
             return {
-                username: post.authorUser,
-                content: post.content,
-                likes: post.thumbsUpCount,
-                dislikes: post.thumbsDownCount,
-                timestamp: post.timestamp,
-                postId: post.postId
+                username: post.authorUser, content: post.content, likes: post.thumbsUpCount,
+                dislikes: post.thumbsDownCount, timestamp: post.timestamp, postId: post.postId
             }
         });
-
         res.json(postsPackaged);
-
     }
     catch (error) {
         console.log("error in getUserPosts: " + error);
@@ -404,17 +391,20 @@ app.get("/getUserPosts/:username", async (req, res) => {
     }
 });
 
-// get route for a post queried by its ID
+// Route for a post queried by its ID
 app.get("/getUserPostByID/:paramPostID", async (req, res) => {
     try {
+        // Checks if user is authenticated, returns if not
         if (!isAuthenticated(req)) {
             res.status(403).send("not signed in, cant see posts...");
             return;
         }
+
+        // Gets requested post by ID from url, and queries the DB for it
         const queryPostID = req.params.paramPostID;
-        console.log(queryPostID);
         const queriedPost = await Post.findOne({ postId: queryPostID });
-        // Sends post info back to client, strips out database info
+
+        // Creates JSON for requested post info, sends post info back to client
         let postPackaged = {
             username: queriedPost.authorUser,
             content: queriedPost.content,
@@ -423,118 +413,119 @@ app.get("/getUserPostByID/:paramPostID", async (req, res) => {
             timestamp: queriedPost.timestamp,
             postId: queriedPost.postId
         }
-        // Sends json of post to client
         res.json(postPackaged);
 
     } catch (error) {
-        console.log("error in getUserPostsByID: " + error);
         res.status(500).send("Internal Server Error");
     }
 });
 
-// get route for receiving a list of comments associated with a post's ID
+// Route for receiving a list of comments associated with a post's ID
 app.get("/getCommentsAssociatedWithPostID/:paramPostID", async (req, res) => {
     try {
+        // Checks if user is authenticated, returns if not
         if (!isAuthenticated(req)) {
             res.status(403).send("not signed in, cant see posts...");
             return;
         }
+
+        // Gets post ID from request and queries comments associated with this ID
         const queryPostID = req.params.paramPostID;
         const comments = await Comment.find({ associatedPost: queryPostID });
 
         // Builds JSON array of comments to return to client, strips out DB info
         let commentsArray = comments.map(comment => {
             return {
-                associatedPost: comment.associatedPost,
-                content: comment.content,
-                timestamp: comment.timestamp,
-                associatedUser: comment.associatedUser
+                associatedPost: comment.associatedPost, content: comment.content,
+                timestamp: comment.timestamp, associatedUser: comment.associatedUser
             }
         });
-        // Sends JSON array of comments back to client
         res.json(commentsArray);
     } catch (error) {
-        console.log("error in getUserPostsByID: " + error);
         res.status(500).send("Internal Server Error");
     }
 });
 
-// post route for creating a comment
+// Route for creating a comment
 app.post("/createComment", async (req, res) => {
     try {
+        // Checks if user is authenticated, returns if not
         if (!isAuthenticated(req)) {
             res.status(403).send("not signed in, cant see posts...");
             return;
         }
-
+        // Gets necessary info from request
         const postID = req.body.postId;
         const assocUser = req.session.username;
         const postContent = req.body.postContent;
 
+        // Avoids empty comments from being made
+        if (postContent.length === 0) {
+            res.status(400);
+            return;
+        }
+        // Creates a comment in DB with info from the request, and saves to DB
         const newPost = await Comment.create({
-            associatedPost: postID,
-            content: postContent,
-            timestamp: Date.now(),
+            associatedPost: postID, content: postContent, timestamp: Date.now(),
             associatedUser: assocUser,
         });
-        await newPost.save();
+        await newPost.save();   // Saves to DB
 
+        // Sends user a success message
         res.send("new Comment Posted!");
-
     } catch (error) {
         console.log("error in createComment: " + error);
         res.status(500).send("Internal Server Error");
     }
 });
 
-// Like/Dislike Routes
+// Route for liking a post
 app.post("/like", async (req, res) => {
-    try{    
-        if(!isAuthenticated(req)){
+    try {
+        // Checks if user is authenticated, returns if not
+        if (!isAuthenticated(req))
             res.status(403).send("not signed in");
-        }
+
+        // Gets post ID of post to like, updates it by adding 1 to thumbs up count
         const reqPostId = req.body.postId;
         const postToLike = await Post.findOneAndUpdate(  //increment post like count
-            { postId: reqPostId }, 
-            { $inc: { thumbsUpCount: 1 } }, 
-            { new: true }          
+            { postId: reqPostId },
+            { $inc: { thumbsUpCount: 1 } },
+            { new: true }
         );
-        console.log("liked " + reqPostId);
+        
+        // Returns an updated count of the like number
         res.send(JSON.stringify(postToLike.thumbsUpCount));
     }
-    catch(error){
+    catch (error) {
         console.log("Error liking post " + error);
         res.status(500).send("internal server error liking post");
     }
-
 });
 
-
-// Route for disliking
+// Route for disliking a post
 app.post("/dislike", async (req, res) => {
-    try{    
-        if(!isAuthenticated(req)){
+    try {
+        // Checks if user is authenticated, returns if not
+        if (!isAuthenticated(req)) {
             res.status(403).send("not signed in");
         }
+
+        // Gets post ID of post to dislike, updates it by adding 1 to thumbs down count
         const reqPostId = req.body.postId;
         const postToDislike = await Post.findOneAndUpdate(  //increment post dislike count
-            { postId: reqPostId }, 
-            { $inc: { thumbsDownCount: 1 } }, 
-            { new: true }          
+            { postId: reqPostId },
+            { $inc: { thumbsDownCount: 1 } },
+            { new: true }
         );
+
+        // Returns an updated count of the dislike number
         res.send(JSON.stringify(postToDislike.thumbsDownCount));
     }
-    catch(error){
+    catch (error) {
         console.log("Error liking post " + error);
         res.status(500).send("internal server error liking post");
     }
-});
-
-// TODO: implement
-app.get("/makeNewComment/:postID/:content", async (req, res) => {
-
-    let inputUserName = req.params.userName;
-    let inputContent = req.params.content;
 });
 
 // Starts up express server
@@ -567,11 +558,9 @@ const postSchema = new mongoose.Schema({
     timestamp: Date,
     postId: String
 });
-
 const Post = mongoose.model("Post", postSchema);
 
 // Schema for Comment
-// TODO: add author ID
 const commentSchema = new mongoose.Schema({
     associatedPost: String,
     associatedUser: String,
