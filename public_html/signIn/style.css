@@ -75,7 +75,6 @@ form{
         padding-left: 25px;
         padding-right: 25px; }
   }
-  
 
 button{
     position: absolute;
@@ -110,4 +109,8 @@ button:active{
     text-decoration: none;
     margin: 0;
     padding: 0;
+}
+
+#notEncryptedText {
+    font-weight: bold;
 }

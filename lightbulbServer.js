@@ -9,7 +9,6 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const mongoConnectStore = require('connect-mongo');
 const path = require('path');
-const { openAsBlob } = require('fs');
 
 // Sets up express app, port number
 const app = express();
@@ -347,13 +346,15 @@ app.get("/getFeed", async (req, res) => {
             return;
         }
         const userDocument = await User.findOne({ userName: req.session.username });
+        console.log(userDocument.followList[0]);
         if (!userDocument) { // quick check for null value
-            res.status(500).send("current user not found!");
+            return res.status(500).send("current user not found!");
         }
         const followingList = userDocument.followList;
-        const postList = await Post.find({ authorUser: { $in: followingList } })
-            .sort({ timestamp: -1 });
 
+        const postList = await Post.find({ authorUser:  {$in: followingList} })
+        .sort({ timestamp: -1 });
+        
         let postsPackaged = postList.map(post => {
             return {
                 username: post.authorUser,
@@ -364,7 +365,6 @@ app.get("/getFeed", async (req, res) => {
                 postId: post.postId,
             }
         });
-
         res.json(postsPackaged);
 
     }

@@ -64,19 +64,26 @@ function generateHTML(results){
      results.forEach( result => {
         const newResultDiv = document.createElement("div");
         newResultDiv.className = "resultDiv";
+
+
         let buttonName;
-        if( !result.isMe){
-            buttonName = result.isFollowing ? "unfollow" : "follow";
+       
+        buttonName = result.isFollowing ? "unfollow" : "follow";
+
+        let buttonHTML = `
+        <button id="followButton" type="submit">${buttonName}</button>
+        `;
+
+        if(result.isMe){
+            buttonHTML = "";
         }
-        else{
-            buttonName = "follow myself ?";
-        }
+
         newResultDiv.innerHTML = `
         <form onsubmit="postFollowRequest(event, '${result.userName}', ${result.isMe}), ${result.isFollowing} ">
         <button type="button" onclick="goToProfile('${result.userName}')" id="userNameResult">${result.userName}</button>
         <p id="dispNameResult">${result.dispName}</p>
         <p id="statusResult">${result.status}</p>
-        <button id="followButton" type="submit">${buttonName}</button>
+        ${buttonHTML}
         </form>
         `
         searchResultArea.appendChild(newResultDiv);

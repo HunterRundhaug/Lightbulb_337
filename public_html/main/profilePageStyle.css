@@ -89,12 +89,23 @@ h2{
     transition: width 0.2s;
 }
 
-#followButton:hover{
+#followButton:hover:enabled{
     width: 20%;
 }
 
 #followButton:active{
     background-color: black;
+}
+
+#followButton:disabled {
+    color: white;
+    background-color:rgb(62, 62, 62);
+    padding-top: 10px;
+    padding-bottom: 10px;
+   
+    border-radius: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 #infoTable{

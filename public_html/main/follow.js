@@ -12,14 +12,13 @@ async function postFollowRequest(event, userName, isMe, alreadyFollowing){
         return;
     }
 
-
     // Contains name of user the session user wishes to follow or unfollow
     dataToSend = {
         userToToggle: userName
     }
 
     // Sends request to server
-    await fetch("http://localhost:3000/toggleFollowUser", {
+    response = await fetch("http://localhost:3000/toggleFollowUser", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -27,5 +26,13 @@ async function postFollowRequest(event, userName, isMe, alreadyFollowing){
         body: JSON.stringify(dataToSend)
     });
 
-    window.location.reload();
+    if(formButton.innerHTML === "follow"){
+        formButton.innerHTML = `${userName} followed!`;
+        formButton.disabled = true;
+    }
+    else{
+        formButton.innerHTML = `${userName} unfollowed`;
+        formButton.disabled = true;
+    }
+ 
 }

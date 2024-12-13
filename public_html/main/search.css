@@ -109,7 +109,10 @@ h2{
     color:white;
 }
 
-.resultDiv button:hover{
+.resultDiv button:hover {
     background-color: black;
 }
 
+.resultDiv button:disabled {
+    background-color: rgb(62, 62, 62);
+}

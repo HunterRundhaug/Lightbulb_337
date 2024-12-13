@@ -4,7 +4,7 @@
 const mainFeedDomObj = document.getElementById("contentSection");
 
 async function getMainFeed() {
-
+   
     // Send request for getting main feed
     const response = await fetch(`http://localhost:3000/getFeed`, {
         method: 'GET',
@@ -29,6 +29,7 @@ async function getMainFeed() {
 }
 
 function generateHTML(results) {
+    console.log(results);
     // Iterate through results, and generate html.
     results.forEach(result => {
         const timeStamp = result.timestamp;
@@ -47,6 +48,7 @@ function generateHTML(results) {
             </div>
         `
         mainFeedDomObj.appendChild(newResultDiv);
+    
     });
 }
 

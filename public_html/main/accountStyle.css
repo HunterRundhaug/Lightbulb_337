@@ -12,6 +12,16 @@ h2{
     text-align: center;
 }
 
+h3{
+    text-align: center;
+}
+
+#editInfoTableData{
+    padding: 5px;
+    border: 2px solid rgb(62, 62, 62);
+    border-radius: 5px;
+}
+
 #searchSection{
     margin:0;
     padding: 0;
@@ -108,7 +118,7 @@ h2{
 .rightSideP p{
     padding: 5px;
     border-radius: 3px;
-    border: 1px solid black;
+    border-bottom: 3px solid rgb(107, 106, 106);
 }
 
 .inputGroup{

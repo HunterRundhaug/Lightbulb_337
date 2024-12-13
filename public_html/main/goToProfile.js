@@ -52,7 +52,7 @@ async function initiateProfileFetch(){
             infoDiv.insertAdjacentHTML('beforeend',`
                     <div id="followBtnDiv">
                         <form id="followForm" onsubmit="postFollowRequest(event, '${userName}', ${user.isMe}, ${user.isFollowing})">
-                            <button id="followButton">${buttonTxt}</button>
+                            <button id="followButton" type="submit">${buttonTxt}</button>
                         </form>
                     </div>
                 `);
