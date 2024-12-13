@@ -29,8 +29,7 @@ h3{
     align-items: center; 
     justify-content: center; 
     gap: 20px; 
-    border-bottom: 1px solid #b8b8bc;
-    background-color: #ff7e5f
+    background-color: #4b77f0;
 }
 
 #homeButtonImg{
@@ -50,6 +49,16 @@ h3{
 #postButtonImg:hover{
     border-bottom: 3px solid rgb(62, 62, 62);
     border-radius: 8px;
+}
+
+
+#helpA{
+    text-decoration: none;
+    color:white;
+}
+
+#helpA:hover{
+    color:rgb(62, 62, 62);
 }
 
 

@@ -19,8 +19,7 @@ h2{
     align-items: center; 
     justify-content: center; 
     gap: 20px; 
-    border-bottom: 1px solid #b8b8bc;
-    background-color: #ff7e5f
+    background-color: #4b77f0;
 }
 
 #searchBar input[type="text"]{
@@ -46,6 +45,17 @@ h2{
 #accountPageLink:hover{
     color:rgb(62, 62, 62);
 }
+
+
+#helpA{
+    text-decoration: none;
+    color:white;
+}
+
+#helpA:hover{
+    color:rgb(62, 62, 62);
+}
+
 
 #mainSectionWrapper{
     display: flex;

@@ -29,7 +29,7 @@ async function getMainFeed() {
 }
 
 function generateHTML(results) {
-    console.log(results);
+    
     // Iterate through results, and generate html.
     results.forEach(result => {
         const timeStamp = result.timestamp;

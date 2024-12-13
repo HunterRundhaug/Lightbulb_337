@@ -1,12 +1,13 @@
 body{
     font-family:Arial, Helvetica, sans-serif;
-    background: linear-gradient(to bottom, #ff7e5f, #feb47b); 
+    background: linear-gradient(to bottom, #4b77f0, #a9b6db); 
     height: 100vh; 
     margin: 0;
 }
 
 h1{
     padding-left: 5%;
+    color: white;
 }
 
 #mainWrapper{
@@ -104,4 +105,11 @@ button:active{
 
 a{
     text-decoration: none;
+    font-weight: bold;
+}
+
+#helpPageA{
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
 }

@@ -19,7 +19,7 @@ async function postNewComment(event, postId){
     // returns a promise, check for any errors
     .then(response => {
         if(response.ok){
-            alert("ok");
+            window.location.reload();
         }
          else {
             alert(response.status);
