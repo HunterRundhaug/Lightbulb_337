@@ -162,5 +162,14 @@ tr {
 
 #bioTd {
     vertical-align: top;
+}
 
+#statusText{
+    max-width: 500px;
+    overflow-wrap: break-word;
+}
+
+#bioText{
+    max-width: 500px;
+    overflow-wrap: break-word;
 }
