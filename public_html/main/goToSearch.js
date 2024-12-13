@@ -5,14 +5,18 @@
     initiates the acutal fetch to the server to get and display the search results.
 */
 
-// where the searched users html will go
+// Where the searched users html will go
 const searchResultArea = document.getElementById("searchResults");
 
 // Subscribe event Listener to (submit) action on the form object.
 document.getElementById("userSearchForm").addEventListener('submit', (event) => {
+
+    // Prevents page from being reloaded
     event.preventDefault();
+
+    // Gets search input text from DOM element
     const searchInput = document.getElementById("userSearchInput").value.trim();
-    console.log("searchInput reached " + searchInput);
+
     if (searchInput) {
         /* switches to search page... Inputting the search query into the url
            so it can be captured on the search page to be processed. */
@@ -27,6 +31,7 @@ if (window.location.pathname === '/main/search.html') {
 
 // initiates search for user accounts
 async function initiateSearch() {
+
     // collect the params from the url
     const urlParams = new URLSearchParams(window.location.search);
     const searchQuery = urlParams.get('q');
@@ -35,7 +40,7 @@ async function initiateSearch() {
     const whatSearched = document.getElementById("whatWasSearched");
     whatSearched.innerText = searchQuery;
 
-    dataToSend = {query: searchQuery,}
+    dataToSend = { query: searchQuery, }
     // Send request for search
     const response = await fetch('http://localhost:3000/searchForUsers', {
         method: 'POST',
@@ -45,10 +50,11 @@ async function initiateSearch() {
         body: JSON.stringify(dataToSend),
     })
         .then(async response => {
+            // If response OK, generates HTML for search
             if (response.ok) {
                 const results = await response.json();
                 generateHTML(results);
-            } else {alert(response.status);}
+            } else { alert(response.status); }
         })
         .catch(error => {
             console.error('Error:', error);
@@ -56,19 +62,21 @@ async function initiateSearch() {
 }
 
 function generateHTML(results) {
-    // Iterate through results, and generate html.
+
+    // Iterate through results, and generates HTML for each result
     results.forEach(result => {
         const newResultDiv = document.createElement("div");
         newResultDiv.className = "resultDiv";
 
-        // determine if the button should be there, and its label.
+        // determine if the button should be there, and its label
         let buttonName;
         buttonName = result.isFollowing ? "unfollow" : "follow";
         let buttonHTML = `
         <button id="followButton" type="submit">${buttonName}</button>
         `;
-        if (result.isMe) {buttonHTML = "";}
-        // Generate the HTML
+        if (result.isMe) { buttonHTML = ""; }
+
+        // Generates the HTML
         newResultDiv.innerHTML = `
         <form onsubmit="postFollowRequest(event, '${result.userName}', 
         ${result.isMe}), ${result.isFollowing} ">

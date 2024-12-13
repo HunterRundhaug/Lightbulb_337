@@ -32,7 +32,6 @@ async function getMainFeed() {
             // Handle errors from the fetch call
             console.error('Error:', error);
         });
-
 }
 
 // generate HTML for each post in the post section.
@@ -66,5 +65,5 @@ function generateHTML(results) {
     });
 }
 
-// Adds event listener for window on load
+// Adds event listener for window on load, and calls getMainFeed when occurs
 window.addEventListener('load', getMainFeed);
