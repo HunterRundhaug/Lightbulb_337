@@ -52,16 +52,18 @@ function generateHTML(results) {
         <div class="singlePost">
             <p class="postTimeStampP"{>${dateTime}</p>
             <p class="postContent">${result.content}</p>
+            <div>
             <label id="likeBtn${result.postId}">${result.likes}</label>
-                <button onclick="likePost('${result.postId}', 'likeBtn${result.postId}')" 
+            <button onclick="likePost('${result.postId}', 'likeBtn${result.postId}')" 
                 type="checkbox" class="likeDislikeBtn"> <img class="likeDislikeImg" 
                 src="./images/like.png" /></button>
-                <label id="dislikeBtn${result.postId}">${result.dislikes}</label>
-                <button onclick="dislikePost('${result.postId}', 'dislikeBtn${result.postId}')" 
+            <label id="dislikeBtn${result.postId}">${result.dislikes}</label>
+            <button onclick="dislikePost('${result.postId}', 'dislikeBtn${result.postId}')" 
                 type="checkbox" class="likeDislikeBtn"> <img class="likeDislikeImg" 
                 src="./images/dislike.png" /> </button>
-                <button class="commentSectionButton" 
+            <button class="commentSectionButton" 
                 onclick="goToCommentPage('${result.postId}')">See comment section</button>
+            </div>
         </div>
        `
         postSectionObj.appendChild(newResultDiv);
