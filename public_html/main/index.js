@@ -1,5 +1,3 @@
-
-
 /*
     Authors: Hunter Rundhaug & Theodore Reyes.
     File: index.js
@@ -7,9 +5,6 @@
         Meant to be the initialization of the main page for index.html.
         Responsible for generating the following section html.
 */
-
-
-
 
 const currentUserElement = document.getElementById("currentUserName");
 let currentUserFollowList;

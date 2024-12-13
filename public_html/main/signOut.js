@@ -9,6 +9,7 @@
 // sends request to sign out the current user.
 function signOutUser() {
 
+    // send POST fetch request
     fetch('http://localhost:3000/logout', {
         method: 'POST',
         headers: {
