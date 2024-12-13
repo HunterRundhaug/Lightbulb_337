@@ -1,4 +1,3 @@
-
 /*
     Authors: Hunter Rundhaug & Theodore Reyes.
     File: follow.js
@@ -26,17 +25,16 @@ async function postFollowRequest(event, userName, isMe, alreadyFollowing) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        },
+        }, 
         body: JSON.stringify(dataToSend)
     });
 
-    // 
-    if (formButton.innerHTML === "follow") {
-        formButton.innerHTML = `${userName} followed!`;
+    if (formButton.innerHTML === "follow") {                   // If followed, sets the
+        formButton.innerHTML = `${userName} followed!`;        // innerHTML to 'followed!'
         formButton.disabled = true;
     }
     else {
-        formButton.innerHTML = `${userName} unfollowed`;
-        formButton.disabled = true;
+        formButton.innerHTML = `${userName} unfollowed`;        // If unfollowed, sets the
+        formButton.disabled = true;                             // innerHTML to 'unfollowed'
     }
 }
