@@ -35,10 +35,7 @@ async function initiateSearch() {
     const whatSearched = document.getElementById("whatWasSearched");
     whatSearched.innerText = searchQuery;
 
-    dataToSend = {
-        query: searchQuery,
-    }
-
+    dataToSend = {query: searchQuery,}
     // Send request for search
     const response = await fetch('http://localhost:3000/searchForUsers', {
         method: 'POST',
@@ -51,10 +48,7 @@ async function initiateSearch() {
             if (response.ok) {
                 const results = await response.json();
                 generateHTML(results);
-            }
-            else {
-                alert(response.status);
-            }
+            } else {alert(response.status);}
         })
         .catch(error => {
             console.error('Error:', error);
@@ -73,10 +67,7 @@ function generateHTML(results) {
         let buttonHTML = `
         <button id="followButton" type="submit">${buttonName}</button>
         `;
-        if (result.isMe) {
-            buttonHTML = "";
-        }
-
+        if (result.isMe) {buttonHTML = "";}
         // Generate the HTML
         newResultDiv.innerHTML = `
         <form onsubmit="postFollowRequest(event, '${result.userName}', 

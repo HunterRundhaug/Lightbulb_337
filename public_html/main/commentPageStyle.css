@@ -216,10 +216,6 @@ img.likeDislikeImg {
     justify-content: right;
 }
 
-#existingCommentsSection{
-    border: 5px solid black;
-}
-
 h2 {
     margin-top: 100px;
     padding-left: 40px;

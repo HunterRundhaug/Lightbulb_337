@@ -13,11 +13,10 @@ window.addEventListener('load', loadProfilePosts);
 
 // sends GET request to get the posts from a specified user, then generates HTML for it.
 async function loadProfilePosts() {
-
+    
     // collect the params from the url
     const urlParams = new URLSearchParams(window.location.search);
     const userQuery = urlParams.get('q');
-
     // Send fetch...
     const response = await fetch(`http://localhost:3000/getUserPosts/${userQuery}`, {
         method: 'GET',
@@ -37,14 +36,11 @@ async function loadProfilePosts() {
 
 // Generate the HTML for a profiles posts
 function generateHTML(results) {
-
     // Iterate through results, and generate html.
     results.forEach(result => {
-
         // process time data
         const timeStamp = result.timestamp;
         const dateTime = timeStamp.split('.')[0].replace('T', ' ');
-
         // generate HTML
         const newResultDiv = document.createElement("div");
         newResultDiv.className = "resultDiv";
@@ -64,8 +60,7 @@ function generateHTML(results) {
             <button class="commentSectionButton" 
                 onclick="goToCommentPage('${result.postId}')">See comment section</button>
             </div>
-        </div>
-       `
+        </div>`
         postSectionObj.appendChild(newResultDiv);
     });
 }
