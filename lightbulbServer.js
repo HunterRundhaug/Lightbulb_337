@@ -346,7 +346,7 @@ app.get("/getFeed", async (req, res) => {
             return;
         }
         const userDocument = await User.findOne({ userName: req.session.username });
-        console.log(userDocument.followList[0]);
+        
         if (!userDocument) { // quick check for null value
             return res.status(500).send("current user not found!");
         }
