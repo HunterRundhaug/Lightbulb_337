@@ -76,9 +76,11 @@ function generateHTML(results){
         <button type="button" onclick="goToProfile('${result.userName}')" id="userNameResult">${result.userName}</button>
         <p id="dispNameResult">${result.dispName}</p>
         <p id="statusResult">${result.status}</p>
-        <button type="submit">${buttonName}</button>
+        <button id="followButton" type="submit">${buttonName}</button>
         </form>
         `
         searchResultArea.appendChild(newResultDiv);
+
+
     });
 }

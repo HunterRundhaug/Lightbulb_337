@@ -1,9 +1,9 @@
 const postWrapper = document.getElementById("postWrapperDiv");
 
-const usernameObj = document.getElementById("usernameText");
-const displayNameObj = document.getElementById("displayNameText");
-const statusObj = document.getElementById("statusText");
-const bioObj = document.getElementById("bioText");
+const usernameOb = document.getElementById("usernameText");
+const displayNameOb = document.getElementById("displayNameText");
+const statusOb = document.getElementById("statusText");
+const bioOb = document.getElementById("bioText");
 
 // Redirects client to search page with input search...
 function goToProfile(userName){
@@ -40,22 +40,26 @@ async function initiateProfileFetch(){
             let displayName = user.dispName;
             let status = user.status;
             let bio = user.bio;
-            usernameObj.innerText = userName;
-            displayNameObj.innerText = displayName;
-            statusObj.innerText = status;
-            bioObj.innerText = bio;
+            usernameOb.innerText = userName;
+            displayNameOb.innerText = displayName;
+            statusOb.innerText = status;
+            bioOb.innerText = bio;
 
             const infoDiv = document.getElementById("infoDiv");
 
-            const buttonTxt = user.isFollowing ? "unfollow" : "follow";
-
+            let buttonTxt = user.isFollowing ? "unfollow" : "follow";
+    
             infoDiv.insertAdjacentHTML('beforeend',`
                     <div id="followBtnDiv">
                         <form id="followForm" onsubmit="postFollowRequest(event, '${userName}', ${user.isMe}, ${user.isFollowing})">
                             <button id="followButton">${buttonTxt}</button>
                         </form>
                     </div>
-                `)
+                `);
+            if(user.isMe){
+                infoDiv.removeChild(document.getElementById("followBtnDiv"));
+            }
+    
         }
          else {
             alert(response.status);

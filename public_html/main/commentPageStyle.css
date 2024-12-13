@@ -1,0 +1,232 @@
+
+
+body{
+    background-color: rgb(50, 50, 50);
+    padding:0;
+    margin:0;
+    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+h2{
+    text-align: center;
+}
+
+#searchSection{
+    margin:0;
+    padding: 0;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    gap: 20px; 
+    border-bottom: 1px solid #b8b8bc;
+    background-color: #ff7e5f;
+}
+
+#searchBar input[type="text"]{
+    width: 40vw;
+    padding:5px;
+    border-radius: 20px;
+}
+
+#homeButtonImg{
+    width:30px;
+}
+
+
+#homeButtonImg:hover{
+    border-bottom: 3px solid rgb(62, 62, 62);
+    border-radius: 8px;
+}
+
+#postButtonImg{
+    width:28px;
+}
+
+#postButtonImg:hover{
+    border-bottom: 3px solid rgb(62, 62, 62);
+    border-radius: 8px;
+}
+
+#accountPageLink{
+    text-decoration: none;
+    color:white;
+}
+
+#accountPageLink:hover{
+    color:rgb(62, 62, 62);
+}
+
+#mainSectionWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+#followingSection{
+    top:0;
+    width:20vw;
+    height:100vh;
+    border-right: 3px solid rgb(62, 62, 62);
+    background-color: rgb(50, 50, 50);
+
+}
+
+.userInfollowingSection{
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding: 1px;
+    border-radius: 3px;
+
+    display: flex;
+    justify-content: center;
+    background-color: rgb(50, 50, 50);
+
+}
+
+
+/* Individual sections */
+#followingSection, #contentSection {
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding-top: 10px;
+}
+
+#postSection{
+    display: flex;
+    justify-content: center;
+    width: 60%;
+}
+
+.postInContentSection{
+    
+    text-align: center;
+    padding:20px;
+    width: 100%;
+    border-radius: 2px;
+    border-bottom: 3px solid rgb(62, 62, 62);
+    background-color: rgb(50, 50, 50);
+
+}
+
+#headerWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    text-align: center;
+}
+
+
+.userNameInPost{
+    color: white;
+    background-color:rgb(62, 62, 62);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    transition: padding 0.2s;
+}
+
+.userNameInPost:hover{
+    background-color: black;
+   padding-left: 20px;
+   padding-right: 20px;
+}
+
+
+.commentAuthorButton{
+    color: white;
+    background-color:rgb(62, 62, 62);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    transition: padding 0.2s;
+}
+
+.commentAuthorButton:hover{
+    background-color: black;
+   padding-left: 20px;
+   padding-right: 20px;
+}
+
+img.likeDislikeImg{
+    width: 20px;
+    height: 20px;
+}
+
+.likeDislikeBtn{
+    background:transparent;
+    border-radius: 10px;
+    border:none;
+}
+
+
+
+.postTimeStampP{
+    color: greenyellow;
+}
+
+.likeDislikeBtn:active{
+    background-color: black;
+}
+
+#makeNewCommentSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#newCommentTextArea{
+    resize: none;
+    margin-top: 10px;
+    background-color: #b8b8bc;
+    font-size: large;
+}
+
+#postTimeStamp{
+    font-size: 15px;
+    color: greenyellow;
+}
+
+#postCommentButton{
+    display: flex;
+    justify-content: right;
+}
+
+h2{
+    margin-top: 100px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid black;
+    border-right: 3px solid black;
+    border-left: 3px solid black;
+    border-radius: 35px;
+}
+
+#existingCommentsSection{
+    margin-top: 10px;
+    padding: 10px;
+    border: 5px solid black;
+    border-radius: 5px;
+    width: 40%;
+    height: 500px;
+    overflow-y:scroll;
+}
+
+.commentContents{
+    font-size: 22px;
+}
+
+.singleComment{
+    text-align: center;
+    border-bottom: 1px solid rgb(62, 62, 62);
+
+}

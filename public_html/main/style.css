@@ -102,17 +102,13 @@ h2{
 }
 
 .postInContentSection{
-    padding:0px;
+    margin-top: 10px;
+    padding-bottom: 5px;
     width: 100%;
     border-radius: 2px;
     border-bottom: 3px solid rgb(62, 62, 62);
     background-color: rgb(50, 50, 50);
 
-}
-
-.userNameInPost{
-    padding:3px;
-    margin:0;
 }
 
 .contentInPost{
@@ -160,4 +156,37 @@ img.likeDislikeImg{
 
 .userInFollowingSection button:hover {
     width: 55%;
+}
+
+.userNameInPost{
+    margin-left: 20px;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+    background-color: rgb(62, 62, 62);
+    color:white;
+}
+
+.userNameInPost:hover{
+    background-color: black;
+}
+
+
+.commentSectionButton{
+    height: 30px;
+    margin-left: 20px;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+    background-color: rgb(62, 62, 62);
+    color:white;
+    transition: padding, 0.2s;
+}
+
+.commentSectionButton:hover{
+    background-color: black;
+    padding-right: 30px;
+    padding-left: 30px;
 }

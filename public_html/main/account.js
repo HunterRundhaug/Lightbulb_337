@@ -10,6 +10,8 @@ const statusForm = document.getElementById("statusForm");
 const displayNameForm = document.getElementById("setDisplayNameForm");
 const bioForm = document.getElementById("setBioFrom");
 
+const viewProfileButton = document.getElementById("viewProfileButton");
+
 async function getCurrentlySignedInUser(){
     console.log("function called");
     try{
@@ -28,6 +30,10 @@ async function getCurrentlySignedInUser(){
             statusForm.value = status;
             displayNameForm.value = displayName;
             bioForm.innerText = bio;
+
+            viewProfileButton.onclick = function () {
+                goToProfile(userName);
+            };
 
         }
         else{

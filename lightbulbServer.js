@@ -223,6 +223,9 @@ app.post("/makeNewPost", async (req, res) => {
         // Finds db ID of the user who created the post
         let userID = await User.findOne({ userName: req.session.username });
 
+        const numberOfPost = await Post.countDocuments();
+        postid = numberOfPost + 1;
+
         const inputContent = req.body.content;
         // Creates new post in database
         let newPost = new Post({
@@ -230,7 +233,8 @@ app.post("/makeNewPost", async (req, res) => {
             content: inputContent,
             thumbsUpCount: 0,
             thumbsDownCount: 0,
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            postId: postid
         });
         await newPost.save();
         res.send("Post added successfully");
@@ -357,6 +361,7 @@ app.get("/getFeed", async (req, res) => {
                 likes: post.thumbsUpCount,
                 dislikes: post.thumbsDownCount,
                 timestamp: post.timestamp,
+                postId: post.postId,
             }
         });
 
@@ -371,7 +376,6 @@ app.get("/getFeed", async (req, res) => {
 
 // get Route for getting a single users Posts...
 app.get("/getUserPosts/:username", async (req, res) => {
-
     try {
         if (!isAuthenticated(req)) {
             res.status(403).send("not signed in, cant see posts...");
@@ -387,6 +391,7 @@ app.get("/getUserPosts/:username", async (req, res) => {
                 likes: post.thumbsUpCount,
                 dislikes: post.thumbsDownCount,
                 timestamp: post.timestamp,
+                postId: post.postId
             }
         });
 
@@ -397,9 +402,133 @@ app.get("/getUserPosts/:username", async (req, res) => {
         console.log("error in getUserPosts: " + error);
         res.status(500).send("Internal Server Error");
     }
+});
+
+// get route for a post queried by its ID
+app.get("/getUserPostByID/:paramPostID", async (req, res) => {
+    try {
+        if (!isAuthenticated(req)) {
+            res.status(403).send("not signed in, cant see posts...");
+            return;
+        }
+        const queryPostID = req.params.paramPostID;
+        console.log(queryPostID);
+        const queriedPost = await Post.findOne({ postId: queryPostID });
+        // Sends post info back to client, strips out database info
+        let postPackaged = {
+            username: queriedPost.authorUser,
+            content: queriedPost.content,
+            likes: queriedPost.thumbsUpCount,
+            dislikes: queriedPost.thumbsDownCount,
+            timestamp: queriedPost.timestamp,
+            postId: queriedPost.postId
+        }
+        // Sends json of post to client
+        res.json(postPackaged);
+
+    } catch (error) {
+        console.log("error in getUserPostsByID: " + error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+// get route for receiving a list of comments associated with a post's ID
+app.get("/getCommentsAssociatedWithPostID/:paramPostID", async (req, res) => {
+    try {
+        if (!isAuthenticated(req)) {
+            res.status(403).send("not signed in, cant see posts...");
+            return;
+        }
+        const queryPostID = req.params.paramPostID;
+        const comments = await Comment.find({ associatedPost: queryPostID });
+
+        // Builds JSON array of comments to return to client, strips out DB info
+        let commentsArray = comments.map(comment => {
+            return {
+                associatedPost: comment.associatedPost,
+                content: comment.content,
+                timestamp: comment.timestamp,
+                associatedUser: comment.associatedUser
+            }
+        });
+        // Sends JSON array of comments back to client
+        res.json(commentsArray);
+    } catch (error) {
+        console.log("error in getUserPostsByID: " + error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+// post route for creating a comment
+app.post("/createComment", async (req, res) => {
+    try {
+        if (!isAuthenticated(req)) {
+            res.status(403).send("not signed in, cant see posts...");
+            return;
+        }
+
+        const postID = req.body.postId;
+        const assocUser = req.session.username;
+        const postContent = req.body.postContent;
+
+        const newPost = await Comment.create({
+            associatedPost: postID,
+            content: postContent,
+            timestamp: Date.now(),
+            associatedUser: assocUser,
+        });
+        await newPost.save();
+
+        res.send("new Comment Posted!");
+
+    } catch (error) {
+        console.log("error in createComment: " + error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+// Like/Dislike Routes
+app.post("/like", async (req, res) => {
+    try{    
+        if(!isAuthenticated(req)){
+            res.status(403).send("not signed in");
+        }
+        const reqPostId = req.body.postId;
+        const postToLike = await Post.findOneAndUpdate(  //increment post like count
+            { postId: reqPostId }, 
+            { $inc: { thumbsUpCount: 1 } }, 
+            { new: true }          
+        );
+        console.log("liked " + reqPostId);
+        res.send(JSON.stringify(postToLike.thumbsUpCount));
+    }
+    catch(error){
+        console.log("Error liking post " + error);
+        res.status(500).send("internal server error liking post");
+    }
+
+});
 
 
-})
+// Route for disliking
+app.post("/dislike", async (req, res) => {
+    try{    
+        if(!isAuthenticated(req)){
+            res.status(403).send("not signed in");
+        }
+        const reqPostId = req.body.postId;
+        const postToDislike = await Post.findOneAndUpdate(  //increment post dislike count
+            { postId: reqPostId }, 
+            { $inc: { thumbsDownCount: 1 } }, 
+            { new: true }          
+        );
+        res.send(JSON.stringify(postToDislike.thumbsDownCount));
+    }
+    catch(error){
+        console.log("Error liking post " + error);
+        res.status(500).send("internal server error liking post");
+    }
+});
 
 // TODO: implement
 app.get("/makeNewComment/:postID/:content", async (req, res) => {
@@ -444,7 +573,8 @@ const Post = mongoose.model("Post", postSchema);
 // Schema for Comment
 // TODO: add author ID
 const commentSchema = new mongoose.Schema({
-    associatedPost: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
+    associatedPost: String,
+    associatedUser: String,
     content: String,
     timestamp: Date
 });

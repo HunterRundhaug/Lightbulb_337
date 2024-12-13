@@ -181,3 +181,38 @@ tr{
     font-size: 12px;
     color:rgb(149, 255, 0);
 }
+
+img.likeDislikeImg{
+    width: 20px;
+    height: 20px;
+}
+
+.likeDislikeBtn{
+    background:transparent;
+    border-radius: 10px;
+    border:none;
+}
+.likeDislikeBtn:hover{
+    background-color: black;
+}
+
+.likeDislikeBtn:active{
+    background-color: rgb(143, 143, 143);
+}
+
+.commentSectionButton{
+    color: white;
+    background-color:rgb(62, 62, 62);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    transition: padding 0.2s;
+}
+
+.commentSectionButton:hover{
+    background-color: black;
+   padding-left: 20px;
+   padding-right: 20px;
+}
